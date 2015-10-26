@@ -16,6 +16,7 @@ namespace Lost.Repository
         }
         protected ISearchContext Context { get; private set; }
 
+        //THIS MIGHT GO INTO SERVICE LAYER
         public List<ILostPerson> GetAllLostPersons()
         {
             return new List<ILostPerson>(AutoMapper.Mapper.Map<List<Lost.Model.LostPerson>>(Context.LostPersons.Where(p => !p.IsFound)));
@@ -43,14 +44,31 @@ namespace Lost.Repository
         {
             return new List<ILostPerson>(AutoMapper.Mapper.Map<List<LostPerson>>(Context.LostPersons.Find(m => m.LocationLastSeen.Equals(lastSeen))));
         }
-
-        //Import new lost person
         public ILostPerson GetLostPersonById(int id)
         {
             //var person = Context.LostPersons.Find(m => m.Id.Equals(id));
             //return AutoMapper.Mapper.Map<ILostPerson>(person);
 
             return AutoMapper.Mapper.Map<ILostPerson>(Context.LostPersons.Find(m => m.Id.Equals(id)));
+        }
+
+        //CRUD
+        public bool ReportMissingPerson(int id)
+        {
+            Context.RedCrosses.FirstOrDefault().LostPersons.Add(Context.LostPersons.First(m => m.Id.Equals(id)));
+            return true;
+        }
+        public List<ILostPerson> GetAllLostPersons()
+        {
+            return new List<ILostPerson>(AutoMapper.Mapper.Map<List<Lost.Model.LostPerson>>(Context.LostPersons));
+        }
+        public List<IRedCross> GetAllRedCrosses()
+        {
+            return new List<IRedCross>(AutoMapper.Mapper.Map<List<Lost.Model.RedCross>>(Context.RedCrosses));
+        }
+        public bool RemoveMissingPerson(int id)
+        {
+            return Context.RedCrosses.FirstOrDefault().LostPersons.Remove(Context.LostPersons.First(m => m.Id.Equals(id)));
         }
     }
 }

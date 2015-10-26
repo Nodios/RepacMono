@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7FCE84A3-1707-49E7-A124-A9F55CCAD053}</ProjectGuid>
+    <ProjectGuid>{8F375683-BC13-4641-86D8-8D499D3A9614}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lost.Repository</RootNamespace>
-    <AssemblyName>Lost.Repository</AssemblyName>
+    <RootNamespace>Lost.Service.Common</RootNamespace>
+    <AssemblyName>Lost.Service.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,12 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper">
-      <HintPath>..\packages\AutoMapper.4.1.0\lib\net45\AutoMapper.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject">
-      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,30 +39,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DIModule.cs" />
-    <Compile Include="LostRepository.cs" />
+    <Compile Include="ILostService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lost.DAL\Lost.DAL.csproj">
-      <Project>{ef5db563-5be1-4424-af14-33d7449ea3c4}</Project>
-      <Name>Lost.DAL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Lost.Model.Common\Lost.Model.Common.csproj">
       <Project>{d7b1376a-30da-4004-b1ee-ccc4e704a2f0}</Project>
       <Name>Lost.Model.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Lost.Model\Lost.Model.csproj">
-      <Project>{5c887c68-08fe-4920-8017-535ea9727860}</Project>
-      <Name>Lost.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lost.Repository.Common\Lost.Repository.Common.csproj">
-      <Project>{0818fa98-6adf-4408-b9e8-465ce1809838}</Project>
-      <Name>Lost.Repository.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

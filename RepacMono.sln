@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lost.Repository.Common", "L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lost.Repository", "Lost.Repository\Lost.Repository.csproj", "{7FCE84A3-1707-49E7-A124-A9F55CCAD053}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lost.Service.Common", "Lost.Service.Common\Lost.Service.Common.csproj", "{8F375683-BC13-4641-86D8-8D499D3A9614}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lost.Service", "Lost.Service\Lost.Service.csproj", "{EB008538-B455-4E65-A6D4-83AAA5AF5786}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{7FCE84A3-1707-49E7-A124-A9F55CCAD053}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FCE84A3-1707-49E7-A124-A9F55CCAD053}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FCE84A3-1707-49E7-A124-A9F55CCAD053}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F375683-BC13-4641-86D8-8D499D3A9614}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F375683-BC13-4641-86D8-8D499D3A9614}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F375683-BC13-4641-86D8-8D499D3A9614}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F375683-BC13-4641-86D8-8D499D3A9614}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB008538-B455-4E65-A6D4-83AAA5AF5786}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB008538-B455-4E65-A6D4-83AAA5AF5786}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB008538-B455-4E65-A6D4-83AAA5AF5786}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB008538-B455-4E65-A6D4-83AAA5AF5786}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

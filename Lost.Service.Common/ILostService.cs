@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Lost.Model.Common;
 
-namespace Lost.Repository.Common
+namespace Lost.Service.Common
 {
-    public interface ILostRepository
+    public interface ILostService
     {
-        //This might go to service layer
+        List<ILostPerson> GetAllMissingPersons();
         List<ILostPerson> GetByLocation(string location);
         List<ILostPerson> GetByCountry(string country);
         List<ILostPerson> GetByReportDate(DateTime reportDate);
@@ -17,11 +17,8 @@ namespace Lost.Repository.Common
         List<ILostPerson> GetByLocationLastSeen(string lastSeen);
         ILostPerson GetLostPersonById(int id);
 
-        //CRUD
         bool ReportMissingPerson(int id);
-        List<ILostPerson> GetAllLostPersons();
         List<IRedCross> GetAllRedCrosses();
         bool RemoveMissingPerson(int id);
-
     }
 }
