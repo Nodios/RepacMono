@@ -31,6 +31,6 @@ namespace Lost.DAL
         public int RedCrossId { get; set; }
 
         //Navigation
-        public RedCrossEntity RedCross { get; set; }
+        public virtual RedCrossEntity RedCrossEntity { get; set; }
     }
 }

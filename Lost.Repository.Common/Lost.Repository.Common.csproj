@@ -39,15 +39,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDBInteractions\IEntityBase.cs" />
+    <Compile Include="IDBInteractions\IUnitOfWork.cs" />
     <Compile Include="ILostRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lost.DAL\Lost.DAL.csproj">
+      <Project>{ef5db563-5be1-4424-af14-33d7449ea3c4}</Project>
+      <Name>Lost.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lost.Model.Common\Lost.Model.Common.csproj">
       <Project>{d7b1376a-30da-4004-b1ee-ccc4e704a2f0}</Project>
       <Name>Lost.Model.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lost.Model\Lost.Model.csproj">
+      <Project>{5c887c68-08fe-4920-8017-535ea9727860}</Project>
+      <Name>Lost.Model</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

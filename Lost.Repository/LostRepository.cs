@@ -5,70 +5,95 @@ using Lost.DAL;
 using Lost.Model;
 using Lost.Model.Common;
 using Lost.Repository.Common;
+using System.Data.Entity;
+using System.Data.Entity.Validation;
 
 namespace Lost.Repository
 {
-    public class LostRepository : ILostRepository
+    public class LostRepository : EntityBase<LostPersonEntity>, ILostRepository
     {
-        public LostRepository(ISearchContext context)
+        public LostRepository(SearchContext context) : base(context)
         {
-            this.Context = context;
+            //this.Context = context;
         }
-        protected ISearchContext Context { get; private set; }
+        //protected SearchContext Context { get; set; }
 
-        //THIS MIGHT GO INTO SERVICE LAYER
-        public List<ILostPerson> GetAllLostPersons()
+        public ICollection<ILostPerson> GetByLocation(string location)
         {
-            return new List<ILostPerson>(AutoMapper.Mapper.Map<List<Lost.Model.LostPerson>>(Context.LostPersons.Where(p => !p.IsFound)));
+            //var person = _dbSet.Where(p => p.Location.Equals(location)).ToList();
+            //var vrati = new List<ILostPerson>(AutoMapper.Mapper.Map<ICollection<LostPerson>>(person));
+
+            return new List<ILostPerson>(AutoMapper.Mapper.Map<ICollection<LostPerson>>(_dbSet.Where(p => p.Location.Equals(location)).ToList()));
         }
+
+        public ICollection<ILostPerson> GetByCountry(string country)
+        {
+            //var person = _dbSet.Where(p => p.Location.Equals(country)).ToList();
+            //var vrati = new List<ILostPerson>(AutoMapper.Mapper.Map<IQueryable<LostPerson>>(person));
+
+            return new List<ILostPerson>(AutoMapper.Mapper.Map<IQueryable<LostPerson>>(_dbSet.Where(p => p.Location.Equals(country)).ToList()));
+        }
+
+        public ICollection<ILostPerson> GetByReportDate(DateTime reportDate)
+        {
+            //var person = _dbSet.Where(p => p.Location.Equals(reportDate)).ToList();
+            //var vrati = new List<ILostPerson>(AutoMapper.Mapper.Map<IQueryable<LostPerson>>(person));
+
+            return new List<ILostPerson>(AutoMapper.Mapper.Map<IQueryable<LostPerson>>(_dbSet.Where(p => p.Location.Equals(reportDate)).ToList()));
+        }
+
+        public ICollection<ILostPerson> GetByDateLastSeen(DateTime lastSeen)
+        {
+            //var person = _dbSet.Where(p => p.Location.Equals(lastSeen));
+            //var vrati = new List<ILostPerson>(AutoMapper.Mapper.Map<IQueryable<LostPerson>>(person));
+
+            return new List<ILostPerson>(AutoMapper.Mapper.Map<IQueryable<LostPerson>>(_dbSet.Where(p => p.Location.Equals(lastSeen)).ToList()));
+        }
+
+        public ICollection<ILostPerson> GetByLocationLastSeen(string lastSeen)
+        {
+            //var person = _dbSet.Where(p => p.Location.Equals(lastSeen)).ToList();
+            //var vrati = new List<ILostPerson>(AutoMapper.Mapper.Map<IQueryable<LostPerson>>(person));
+
+            return new List<ILostPerson>(AutoMapper.Mapper.Map<IQueryable<LostPerson>>(_dbSet.Where(p => p.Location.Equals(lastSeen)).ToList()));
+        }
+
+
+        #region Not Needed
+        /*
         public List<ILostPerson> GetByLocation(string location)
         {
             //var person = Context.LostPersons.Find(m => m.Location == location);
             //return new List<ILostPerson>(AutoMapper.Mapper.Map<List<LostPerson>>(person));
 
-            return new List<ILostPerson>(AutoMapper.Mapper.Map<List<LostPerson>>(Context.LostPersons.Find(m => m.Location.Equals(location))));
+            return new List<ILostPerson>(AutoMapper.Mapper.Map<List<LostPerson>>(Context.LostPersons.Where(m => m.Location.Equals(location))));
         }
         public List<ILostPerson> GetByCountry(string country)
         {
-            return new List<ILostPerson>(AutoMapper.Mapper.Map<List<LostPerson>>(Context.LostPersons.Find(m => m.Country.Equals(country))));
+            return new List<ILostPerson>(AutoMapper.Mapper.Map<List<LostPerson>>(Context.LostPersons.Where(m => m.Country.Equals(country))));
         }
         public List<ILostPerson> GetByReportDate(DateTime reportDate)
         {
-            return new List<ILostPerson>(AutoMapper.Mapper.Map<List<LostPerson>>(Context.LostPersons.Find(m => m.ReportDate.Equals(reportDate))));
+            return new List<ILostPerson>(AutoMapper.Mapper.Map<List<LostPerson>>(Context.LostPersons.Where(m => m.ReportDate.Equals(reportDate))));
         }
         public List<ILostPerson> GetByDateLastSeen(DateTime lastSeen)
         {
-            return new List<ILostPerson>(AutoMapper.Mapper.Map<List<LostPerson>>(Context.LostPersons.Find(m => m.DateLastSeen.Equals(lastSeen))));
+            return new List<ILostPerson>(AutoMapper.Mapper.Map<List<LostPerson>>(Context.LostPersons.Where(m => m.DateLastSeen.Equals(lastSeen))));
         }
         public List<ILostPerson> GetByLocationLastSeen(string lastSeen)
         {
-            return new List<ILostPerson>(AutoMapper.Mapper.Map<List<LostPerson>>(Context.LostPersons.Find(m => m.LocationLastSeen.Equals(lastSeen))));
+            return new List<ILostPerson>(AutoMapper.Mapper.Map<List<LostPerson>>(Context.LostPersons.Where(m => m.LocationLastSeen.Equals(lastSeen))));
         }
         public ILostPerson GetLostPersonById(int id)
         {
             //var person = Context.LostPersons.Find(m => m.Id.Equals(id));
             //return AutoMapper.Mapper.Map<ILostPerson>(person);
 
-            return AutoMapper.Mapper.Map<ILostPerson>(Context.LostPersons.Find(m => m.Id.Equals(id)));
+            return AutoMapper.Mapper.Map<ILostPerson>(Context.LostPersons.Where(m => m.Id.Equals(id)));
         }
+         */
+        #endregion
 
-        //CRUD
-        public bool ReportMissingPerson(int id)
-        {
-            Context.RedCrosses.FirstOrDefault().LostPersons.Add(Context.LostPersons.First(m => m.Id.Equals(id)));
-            return true;
-        }
-        public List<ILostPerson> GetAllLostPersons()
-        {
-            return new List<ILostPerson>(AutoMapper.Mapper.Map<List<Lost.Model.LostPerson>>(Context.LostPersons));
-        }
-        public List<IRedCross> GetAllRedCrosses()
-        {
-            return new List<IRedCross>(AutoMapper.Mapper.Map<List<Lost.Model.RedCross>>(Context.RedCrosses));
-        }
-        public bool RemoveMissingPerson(int id)
-        {
-            return Context.RedCrosses.FirstOrDefault().LostPersons.Remove(Context.LostPersons.First(m => m.Id.Equals(id)));
-        }
+
     }
 }

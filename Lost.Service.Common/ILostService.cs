@@ -4,21 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lost.Model.Common;
+using Lost.DAL;
 
 namespace Lost.Service.Common
 {
     public interface ILostService
     {
-        List<ILostPerson> GetAllMissingPersons();
-        List<ILostPerson> GetByLocation(string location);
-        List<ILostPerson> GetByCountry(string country);
-        List<ILostPerson> GetByReportDate(DateTime reportDate);
-        List<ILostPerson> GetByDateLastSeen(DateTime lastSeen);
-        List<ILostPerson> GetByLocationLastSeen(string lastSeen);
-        ILostPerson GetLostPersonById(int id);
+        IEnumerable<ILostPerson> GetAllMissingPersons();
+        IEnumerable<ILostPerson> GetByLocation(string location);
+        IEnumerable<ILostPerson> GetByCountry(string country);
+        IEnumerable<ILostPerson> GetByReportDate(DateTime reportDate);
+        IEnumerable<ILostPerson> GetByDateLastSeen(DateTime lastSeen);
+        IEnumerable<ILostPerson> GetByLocationLastSeen(string lastSeen);
 
-        bool ReportMissingPerson(int id);
-        List<IRedCross> GetAllRedCrosses();
-        bool RemoveMissingPerson(int id);
+        bool ReportMissingPerson(LostPersonEntity lpe);
+        void UpdateMissingPerson(LostPersonEntity lpe);
+        void DeleteMissingPerson(int id);
+        void SaveMissingPerson();
     }
 }

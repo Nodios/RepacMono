@@ -6,12 +6,7 @@ namespace Lost.DAL
 {
     public interface ISearchContext
     {
-        IDbSet<LostPersonEntity> LostPersons { get; set; }
-        IDbSet<RedCrossEntity> RedCrosses { get; set; }
-
-        /*
-        List<LostPersonEntity> LostPersons { get; set; }
-        List<RedCrossEntity> RedCrosses { get; set; }         
-        */
+        DbSet<LostPersonEntity> LostPersons { get; set; }
+        DbSet<RedCrossEntity> RedCrosses { get; set; }  
     }
 }

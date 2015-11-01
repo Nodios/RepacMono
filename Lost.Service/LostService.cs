@@ -6,18 +6,87 @@ using System.Threading.Tasks;
 using Lost.Model.Common;
 using Lost.Repository.Common;
 using Lost.Service.Common;
+using Lost.DAL;
 
 namespace Lost.Service
 {
     public class LostService : ILostService
     {
-        public LostService(ILostRepository repository)
+        protected IUnitOfWork _unitOfWork { get; set; }
+        protected ILostRepository Repository { get; set; }
+
+        public LostService(IUnitOfWork unitOfWork, ILostRepository repository)
         {
+            this._unitOfWork = unitOfWork;
             this.Repository = repository;
         }
-        protected ILostRepository Repository { get; private set; }
 
+        #region ILostService Members
+        public IEnumerable<ILostPerson> GetAllMissingPersons()
+        {
+            return (IEnumerable<ILostPerson>)Repository.GetAll().Where(p => !p.IsFound);
+        }
 
+        public IEnumerable<ILostPerson> GetByLocation(string location)
+        {
+            return Repository.GetByLocation(location);
+        }
+
+        public IEnumerable<ILostPerson> GetByCountry(string country)
+        {
+            return Repository.GetByCountry(country);
+        }
+
+        public IEnumerable<ILostPerson> GetByReportDate(DateTime reportDate)
+        {
+            return Repository.GetByReportDate(reportDate);
+        }
+
+        public IEnumerable<ILostPerson> GetByDateLastSeen(DateTime lastSeen)
+        {
+            return Repository.GetByDateLastSeen(lastSeen);
+        }
+
+        public IEnumerable<ILostPerson> GetByLocationLastSeen(string lastSeen)
+        {
+            return Repository.GetByLocationLastSeen(lastSeen);
+        }
+
+        public bool ReportMissingPerson(LostPersonEntity lpe)
+        {
+            try
+            {
+                Repository.Add(lpe);
+                _unitOfWork.Commit();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public void UpdateMissingPerson(LostPersonEntity lpe)
+        {
+            Repository.Update(lpe);
+            _unitOfWork.Commit();
+        }
+
+        public void DeleteMissingPerson(int id)
+        {
+            var delete = Repository.GetById(id);
+            Repository.Delete(delete);
+            _unitOfWork.Commit();
+        }
+
+        public void SaveMissingPerson()
+        {
+            _unitOfWork.Commit();
+        }
+        #endregion
+
+        #region Comments
+        /*
         public List<ILostPerson> GetAllMissingPersons()
         {
             return Repository.GetAllLostPersons().Where(p => p.IsFound).ToList();
@@ -62,6 +131,8 @@ namespace Lost.Service
         public bool RemoveMissingPerson(int id)
         {
             return Repository.RemoveMissingPerson(id);
-        }
+        }*/
+        #endregion
+
     }
 }

@@ -14,6 +14,6 @@ namespace Lost.Model.Common
         string Country { get; set; }
         string PersonInCharge { get; set; }
 
-        List<ILostPerson> LostPersons { get; set; }
+        ICollection<ILostPerson> LostPersons { get; set; }
     }
 }
