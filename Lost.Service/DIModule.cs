@@ -1,5 +1,6 @@
 ﻿using System;
 using Lost.Service.Common;
+using Lost.Repository.Common;
 
 namespace Lost.Service
 {

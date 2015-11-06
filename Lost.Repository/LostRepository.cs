@@ -18,12 +18,22 @@ namespace Lost.Repository
         }
         //protected SearchContext Context { get; set; }
 
-        public ICollection<ILostPerson> GetByLocation(string location)
+        public IQueryable<LostPersonEntity> GetAllWithRedCross()
         {
-            //var person = _dbSet.Where(p => p.Location.Equals(location)).ToList();
+            var lp = _dbSet.Include("RedCrosses");
+            return lp;
+        }
+
+
+        #region some testings
+        /*
+        public IEnumerable<ILostPerson> GetByLocation(string location)
+        {
+            var person = _dbSet.Where(p => p.Location.Equals(location));
             //var vrati = new List<ILostPerson>(AutoMapper.Mapper.Map<ICollection<LostPerson>>(person));
 
-            return new List<ILostPerson>(AutoMapper.Mapper.Map<ICollection<LostPerson>>(_dbSet.Where(p => p.Location.Equals(location)).ToList()));
+            //return ICollection<ILostPerson>(AutoMapper.Mapper.Map<ICollection<LostPerson>>(_dbSet.Where(p => p.Location.Equals(location)).ToList()));
+            return AutoMapper.Mapper.Map<ICollection<ILostPerson>>(person);
         }
 
         public ICollection<ILostPerson> GetByCountry(string country)
@@ -31,7 +41,7 @@ namespace Lost.Repository
             //var person = _dbSet.Where(p => p.Location.Equals(country)).ToList();
             //var vrati = new List<ILostPerson>(AutoMapper.Mapper.Map<IQueryable<LostPerson>>(person));
 
-            return new List<ILostPerson>(AutoMapper.Mapper.Map<IQueryable<LostPerson>>(_dbSet.Where(p => p.Location.Equals(country)).ToList()));
+            return new List<ILostPerson>(AutoMapper.Mapper.Map<ICollection<LostPerson>>(_dbSet.Where(p => p.Location.Equals(country)).ToList()));
         }
 
         public ICollection<ILostPerson> GetByReportDate(DateTime reportDate)
@@ -39,7 +49,7 @@ namespace Lost.Repository
             //var person = _dbSet.Where(p => p.Location.Equals(reportDate)).ToList();
             //var vrati = new List<ILostPerson>(AutoMapper.Mapper.Map<IQueryable<LostPerson>>(person));
 
-            return new List<ILostPerson>(AutoMapper.Mapper.Map<IQueryable<LostPerson>>(_dbSet.Where(p => p.Location.Equals(reportDate)).ToList()));
+            return new List<ILostPerson>(AutoMapper.Mapper.Map<ICollection<LostPerson>>(_dbSet.Where(p => p.Location.Equals(reportDate)).ToList()));
         }
 
         public ICollection<ILostPerson> GetByDateLastSeen(DateTime lastSeen)
@@ -47,7 +57,7 @@ namespace Lost.Repository
             //var person = _dbSet.Where(p => p.Location.Equals(lastSeen));
             //var vrati = new List<ILostPerson>(AutoMapper.Mapper.Map<IQueryable<LostPerson>>(person));
 
-            return new List<ILostPerson>(AutoMapper.Mapper.Map<IQueryable<LostPerson>>(_dbSet.Where(p => p.Location.Equals(lastSeen)).ToList()));
+            return new List<ILostPerson>(AutoMapper.Mapper.Map<ICollection<LostPerson>>(_dbSet.Where(p => p.Location.Equals(lastSeen)).ToList()));
         }
 
         public ICollection<ILostPerson> GetByLocationLastSeen(string lastSeen)
@@ -55,8 +65,9 @@ namespace Lost.Repository
             //var person = _dbSet.Where(p => p.Location.Equals(lastSeen)).ToList();
             //var vrati = new List<ILostPerson>(AutoMapper.Mapper.Map<IQueryable<LostPerson>>(person));
 
-            return new List<ILostPerson>(AutoMapper.Mapper.Map<IQueryable<LostPerson>>(_dbSet.Where(p => p.Location.Equals(lastSeen)).ToList()));
-        }
+            return new List<ILostPerson>(AutoMapper.Mapper.Map<ICollection<LostPerson>>(_dbSet.Where(p => p.Location.Equals(lastSeen)).ToList()));
+        }*/
+        #endregion
 
 
         #region Not Needed

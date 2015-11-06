@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Lost.DAL;
 using Lost.Repository.Common;
 
-namespace Lost.Repository.DBInteractions
+namespace Lost.Repository
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {

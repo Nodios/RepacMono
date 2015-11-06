@@ -21,6 +21,8 @@ namespace Lost.Repository
 
             Bind<ISearchContext>().To<SearchContext>().InSingletonScope();
             Bind<ILostRepository>().To<LostRepository>();
+
+            Bind<IUnitOfWork>().To<UnitOfWork>();
         }
     }
 }

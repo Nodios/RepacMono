@@ -14,7 +14,6 @@ namespace Lost.Repository
     {
         private SearchContext Context { get; set; }
         protected IDbSet<T> _dbSet { get; set; }
-
         public EntityBase(SearchContext context)
         {
             if (context == null)
@@ -47,7 +46,7 @@ namespace Lost.Repository
             Context.SaveChanges();
         }
         //Get by ID
-        public T GetById(int id)
+        public T GetById(int? id)
         {
             return _dbSet.Find(id);
         }

@@ -11,7 +11,7 @@ namespace Lost.Repository.Common
         void Add(T entity);
         void Update(T entity);
         void Delete(T entity);
-        T GetById(int id);
+        T GetById(int? id);
         IEnumerable<T> GetAll();
     }
 }

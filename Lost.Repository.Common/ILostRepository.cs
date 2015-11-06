@@ -10,10 +10,16 @@ namespace Lost.Repository.Common
 {
     public interface ILostRepository : IEntityBase<LostPersonEntity>
     {
-        IQueryable<ILostPerson> GetByLocation(string location);
-        IQueryable<ILostPerson> GetByCountry(string country);
-        IQueryable<ILostPerson> GetByReportDate(DateTime reportDate);
-        IQueryable<ILostPerson> GetByDateLastSeen(DateTime lastSeen);
-        IQueryable<ILostPerson> GetByLocationLastSeen(string lastSeen);
+        IQueryable<LostPersonEntity> GetAllWithRedCross();
+
+        #region not used
+        /*
+        IEnumerable<ILostPerson> GetByLocation(string location);
+        ICollection<ILostPerson> GetByCountry(string country);
+        ICollection<ILostPerson> GetByReportDate(DateTime reportDate);
+        ICollection<ILostPerson> GetByDateLastSeen(DateTime lastSeen);
+        ICollection<ILostPerson> GetByLocationLastSeen(string lastSeen);
+        */
+        #endregion
     }
 }

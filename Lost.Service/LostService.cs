@@ -1,56 +1,64 @@
-﻿using System;
+﻿using Lost.DAL;
+using Lost.Model;
+using Lost.Model.Common;
+using Lost.Repository.Common;
+using Lost.Service.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lost.Model.Common;
-using Lost.Repository.Common;
-using Lost.Service.Common;
-using Lost.DAL;
 
 namespace Lost.Service
 {
     public class LostService : ILostService
     {
-        protected IUnitOfWork _unitOfWork { get; set; }
-        protected ILostRepository Repository { get; set; }
+        #region Constructor
+        private IUnitOfWork _unitOfWork { get; set; }
+        private ILostRepository Repository { get; set; }
 
         public LostService(IUnitOfWork unitOfWork, ILostRepository repository)
         {
             this._unitOfWork = unitOfWork;
             this.Repository = repository;
         }
+        #endregion
 
         #region ILostService Members
-        public IEnumerable<ILostPerson> GetAllMissingPersons()
+        public IEnumerable<LostPersonEntity> GetAllMissingPersons()
         {
-            return (IEnumerable<ILostPerson>)Repository.GetAll().Where(p => !p.IsFound);
+            //var all = Repository.GetAll();
+            return Repository.GetAll();
         }
+        #endregion
 
+        #region not used
+        /*
         public IEnumerable<ILostPerson> GetByLocation(string location)
         {
             return Repository.GetByLocation(location);
         }
 
-        public IEnumerable<ILostPerson> GetByCountry(string country)
+        public ICollection<ILostPerson> GetByCountry(string country)
         {
             return Repository.GetByCountry(country);
         }
 
-        public IEnumerable<ILostPerson> GetByReportDate(DateTime reportDate)
+        public ICollection<ILostPerson> GetByReportDate(DateTime reportDate)
         {
             return Repository.GetByReportDate(reportDate);
         }
 
-        public IEnumerable<ILostPerson> GetByDateLastSeen(DateTime lastSeen)
+        public ICollection<ILostPerson> GetByDateLastSeen(DateTime lastSeen)
         {
             return Repository.GetByDateLastSeen(lastSeen);
         }
 
-        public IEnumerable<ILostPerson> GetByLocationLastSeen(string lastSeen)
+        public ICollection<ILostPerson> GetByLocationLastSeen(string lastSeen)
         {
             return Repository.GetByLocationLastSeen(lastSeen);
-        }
+        }*/
+        #endregion
 
         public bool ReportMissingPerson(LostPersonEntity lpe)
         {
@@ -79,11 +87,22 @@ namespace Lost.Service
             _unitOfWork.Commit();
         }
 
+        public LostPersonEntity GetMissingPersonById(int? id)
+        {
+            return Repository.GetById(id);
+        }
+
         public void SaveMissingPerson()
         {
             _unitOfWork.Commit();
         }
-        #endregion
+
+        public IEnumerable<LostPersonEntity> GetLostPersonIncludingRedCross()
+        {
+            var ls = Repository.GetAllWithRedCross();
+            return ls;
+        }
+
 
         #region Comments
         /*

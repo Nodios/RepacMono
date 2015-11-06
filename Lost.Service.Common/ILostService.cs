@@ -5,21 +5,29 @@ using System.Text;
 using System.Threading.Tasks;
 using Lost.Model.Common;
 using Lost.DAL;
+using Lost.Model;
 
 namespace Lost.Service.Common
 {
     public interface ILostService
     {
-        IEnumerable<ILostPerson> GetAllMissingPersons();
+        IEnumerable<LostPersonEntity> GetAllMissingPersons();
+        IEnumerable<LostPersonEntity> GetLostPersonIncludingRedCross();
+
+        #region not used
+        /*
         IEnumerable<ILostPerson> GetByLocation(string location);
-        IEnumerable<ILostPerson> GetByCountry(string country);
-        IEnumerable<ILostPerson> GetByReportDate(DateTime reportDate);
-        IEnumerable<ILostPerson> GetByDateLastSeen(DateTime lastSeen);
-        IEnumerable<ILostPerson> GetByLocationLastSeen(string lastSeen);
+        ICollection<ILostPerson> GetByCountry(string country);
+        ICollection<ILostPerson> GetByReportDate(DateTime reportDate);
+        ICollection<ILostPerson> GetByDateLastSeen(DateTime lastSeen);
+        ICollection<ILostPerson> GetByLocationLastSeen(string lastSeen);
+        */
+        #endregion
 
         bool ReportMissingPerson(LostPersonEntity lpe);
         void UpdateMissingPerson(LostPersonEntity lpe);
         void DeleteMissingPerson(int id);
+        LostPersonEntity GetMissingPersonById(int? id);
         void SaveMissingPerson();
     }
 }
