@@ -8,6 +8,7 @@ using Lost.Service.Common;
 using Lost.DAL;
 using System.Net;
 using System.Data;
+using PagedList;
 
 namespace Lost.UI.Controllers
 {
@@ -22,20 +23,68 @@ namespace Lost.UI.Controllers
         #endregion
 
         #region Methods
-        public ActionResult Index(string searchString, string locationString)
+        //TODO: Implement more search options.
+        public ActionResult Index(string sortOrder, string searchString, string locationString, string currentFilter, int? page)
         {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.DateLsSortParm = sortOrder == "DateLs" ? "dateLs_desc" : "DateLs";
+
+            //Paging
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+            
             var lostPersons = Service.GetAllMissingPersons();
 
+            //Searching
             if (!String.IsNullOrEmpty(searchString))
             {
-                lostPersons = lostPersons.Where(l => l.FirstName.Contains(searchString) || l.LastName.Contains(searchString));
+                lostPersons = lostPersons.Where(s => s.LastName.ToLower().Contains(searchString.ToLower()) || s.FirstName.ToLower().Contains(searchString.ToLower()));
             }
-            else if (!String.IsNullOrEmpty(locationString))
+            if (!String.IsNullOrEmpty(locationString))
             {
-                lostPersons = lostPersons.Where(l => l.Location.Contains(locationString));
+                lostPersons = lostPersons.Where(l => l.LocationLastSeen.ToLower().Contains(locationString.ToLower()));
             }
 
-            return View(lostPersons);
+            //Sorting
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    lostPersons = lostPersons.OrderByDescending(s => s.LastName);
+                    break;
+                case "Date":
+                    lostPersons = lostPersons.OrderBy(s => s.ReportDate);
+                    break;
+                case "date_desc":
+                    lostPersons = lostPersons.OrderByDescending(s => s.ReportDate);
+                    break;
+                case "DateLs":
+                    lostPersons = lostPersons.OrderBy(s => s.DateLastSeen);
+                    break;
+                case "dateLs_desc":
+                    lostPersons = lostPersons.OrderByDescending(s => s.DateLastSeen);
+                    break;
+                default:
+                    lostPersons = lostPersons.OrderBy(s => s.LastName);
+                    break;
+            }
+
+            //Change pageSize to change amount of displayed rows in table
+            int pageSize = 3;
+
+            //if left-hand operand is not null, return left, otherwise return right
+            //a.k.a. direct IF
+            int pageNumber = (page ?? 1);
+
+            return View(lostPersons.ToPagedList(pageNumber, pageSize));
         }
         public ActionResult ReportMissing()
         {
