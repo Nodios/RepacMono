@@ -11,11 +11,8 @@
 <p>
     @Html.ActionLink("Report Missing Person", "ReportMissing")
 </p>
-@using (Html.BeginForm("Index", "Index", FormMethod.Get))
+@using (Html.BeginForm("Index", "Lost", FormMethod.Get))
 {
-    <p>
-        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-    </p>
     <p>
         Find by location: @Html.TextBox("LocationString", ViewBag.CurrentFilter as string)
         <input type="submit" value="Search" />

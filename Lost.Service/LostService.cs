@@ -97,12 +97,6 @@ namespace Lost.Service
             _unitOfWork.Commit();
         }
 
-        public IEnumerable<LostPersonEntity> GetLostPersonIncludingRedCross()
-        {
-            var ls = Repository.GetAllWithRedCross();
-            return ls;
-        }
-
 
         #region Comments
         /*

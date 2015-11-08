@@ -7,7 +7,7 @@ using System.Data.Entity;
 
 namespace Lost.DAL
 {
-    public class SearchInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<SearchContext>
+    public class SearchInitializer : System.Data.Entity.DropCreateDatabaseAlways<SearchContext>
     {
         protected override void Seed(SearchContext context)
         {
@@ -43,8 +43,18 @@ namespace Lost.DAL
                     ReportDate=DateTime.Parse("2015-10-15"),
                     RedCrossId=1
                 },
-                new LostPersonEntity{FirstName="Fgdfh", LastName="Tdhfjk", Birthday=DateTime.Parse("1966-03-01"), City="Damask", Country="Siria", DateLastSeen=DateTime.Parse("2015-09-25"), LocationLastSeen="Opatovac, Croatia", IsFound=false, ReporterName="Maja", Location="Opatovac, Croatia", ReportDate=DateTime.Parse("2015-10-11"), RedCrossId=1},
-                new LostPersonEntity{FirstName="Tdfhfg", LastName="Vsdfghd", Birthday=DateTime.Parse("1968-02-10"), City="Damask", Country="Siria", DateLastSeen=DateTime.Parse("2015-09-25"), LocationLastSeen="Opatovac, Croatia", IsFound=true, ReporterName="Davor", Location="Opatovac, Croatia", ReportDate=DateTime.Parse("2015-09-01"), RedCrossId=1}
+                new LostPersonEntity{FirstName="Fgdfh", LastName="Tdhfjk", Birthday=DateTime.Parse("1966-03-01"), City="Osijek", Country="Hrvatska", DateLastSeen=DateTime.Parse("2015-09-25"), LocationLastSeen="Slavonski brod, Croatia", IsFound=false, ReporterName="Maja", Location="Slavonski brod, Croatia", ReportDate=DateTime.Parse("2015-10-11"), RedCrossId=1},
+                new LostPersonEntity{FirstName="Petar", LastName="Bagarić", Birthday=DateTime.Parse("1968-08-12"), City="Zagreb", Country="Hrvatska", DateLastSeen=DateTime.Parse("2015-09-28"), LocationLastSeen="Opatovac, Croatia", IsFound=false, ReporterName="Davor", Location="Opatovac, Croatia", ReportDate=DateTime.Parse("2015-09-29"), RedCrossId=1},
+                new LostPersonEntity{FirstName="Ivan", LastName="Bernatović", Birthday=DateTime.Parse("1968-06-10"), City="Virovitica", Country="Hrvatska", DateLastSeen=DateTime.Parse("2015-09-23"), LocationLastSeen="Tovarnik, Croatia", IsFound=false, ReporterName="Dino", Location="Tovarnik, Croatia", ReportDate=DateTime.Parse("2015-09-27"), RedCrossId=1},
+                new LostPersonEntity{FirstName="Andi", LastName="Bašić", Birthday=DateTime.Parse("1968-10-19"), City="Rijeka", Country="Hrvatska", DateLastSeen=DateTime.Parse("2015-09-19"), LocationLastSeen="Tovarnik, Croatia", IsFound=false, ReporterName="Josip", Location="Tovarnik, Croatia", ReportDate=DateTime.Parse("2015-09-19"), RedCrossId=1},
+                new LostPersonEntity{FirstName="Filip", LastName="Berečić", Birthday=DateTime.Parse("1968-12-30"), City="Split", Country="Hrvatska", DateLastSeen=DateTime.Parse("2015-09-20"), LocationLastSeen="Tovarnik, Croatia", IsFound=false, ReporterName="Ivan", Location="Tovarnik, Croatia", ReportDate=DateTime.Parse("2015-09-25"), RedCrossId=1},
+                new LostPersonEntity{FirstName="Hrvoje", LastName="Hajduković", Birthday=DateTime.Parse("1968-09-01"), City="Zadar", Country="Hrvatska", DateLastSeen=DateTime.Parse("2015-09-25"), LocationLastSeen="Tovarnik, Croatia", IsFound=false, ReporterName="Kristijan", Location="Tovarnik, Croatia", ReportDate=DateTime.Parse("2015-09-30"), RedCrossId=1},
+                new LostPersonEntity{FirstName="Tomislav", LastName="Jukić", Birthday=DateTime.Parse("1968-07-10"), City="Dubrovnik", Country="Hrvatska", DateLastSeen=DateTime.Parse("2015-09-21"), LocationLastSeen="Slavonski brod, Croatia", IsFound=false, ReporterName="Ivana", Location="Slavonski brod, Croatia", ReportDate=DateTime.Parse("2015-09-30"), RedCrossId=1},
+                new LostPersonEntity{FirstName="Ivan", LastName="Jurić", Birthday=DateTime.Parse("1968-03-15"), City="Ploče", Country="Hrvatska", DateLastSeen=DateTime.Parse("2015-09-21"), LocationLastSeen="Opatovac, Croatia", IsFound=false, ReporterName="Mihaela", Location="Opatovac, Croatia", ReportDate=DateTime.Parse("2015-09-28"), RedCrossId=1},
+                new LostPersonEntity{FirstName="Josip", LastName="Kopić", Birthday=DateTime.Parse("1968-01-14"), City="Sarajevo", Country="BiH", DateLastSeen=DateTime.Parse("2015-09-22"), LocationLastSeen="Opatovac, Croatia", IsFound=false, ReporterName="Samir", Location="Opatovac, Croatia", ReportDate=DateTime.Parse("2015-09-27"), RedCrossId=1},
+                new LostPersonEntity{FirstName="Vlado", LastName="Kopić", Birthday=DateTime.Parse("1968-01-12"), City="Novi Sad", Country="Srbija", DateLastSeen=DateTime.Parse("2015-09-27"), LocationLastSeen="Opatovac, Croatia", IsFound=false, ReporterName="Milan", Location="Opatovac, Croatia", ReportDate=DateTime.Parse("2015-09-27"), RedCrossId=1},
+                new LostPersonEntity{FirstName="Robert", LastName="Labus", Birthday=DateTime.Parse("1968-02-08"), City="Niš", Country="Srbija", DateLastSeen=DateTime.Parse("2015-09-29"), LocationLastSeen="Opatovac, Croatia", IsFound=false, ReporterName="Srđan", Location="Opatovac, Croatia", ReportDate=DateTime.Parse("2015-09-30"), RedCrossId=1},
+                new LostPersonEntity{FirstName="Matija", LastName="Lekić", Birthday=DateTime.Parse("1968-02-18"), City="Ljubljana", Country="Slovenija", DateLastSeen=DateTime.Parse("2015-09-30"), LocationLastSeen="Opatovac, Croatia", IsFound=false, ReporterName="Davor", Location="Opatovac, Croatia", ReportDate=DateTime.Parse("2015-09-30"), RedCrossId=1}
             };
             lostPersons.ForEach(s => context.LostPersons.Add(s));
             context.SaveChanges();

@@ -19,7 +19,7 @@ namespace Lost.Repository
             AutoMapper.Mapper.CreateMap<RedCrossEntity, IRedCross>().ReverseMap();
             AutoMapper.Mapper.CreateMap<IRedCross, RedCross>().ReverseMap();
 
-            Bind<ISearchContext>().To<SearchContext>().InSingletonScope();
+            Bind<ISearchContext>().To<SearchContext>();
             Bind<ILostRepository>().To<LostRepository>();
 
             Bind<IUnitOfWork>().To<UnitOfWork>();

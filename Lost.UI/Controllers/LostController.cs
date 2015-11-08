@@ -24,7 +24,7 @@ namespace Lost.UI.Controllers
 
         #region Methods
         //TODO: Implement more search options.
-        public ActionResult Index(string sortOrder, string searchString, string locationString, string currentFilter, int? page)
+        public ActionResult Index(string sortOrder, string locationString, string currentFilter, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -32,23 +32,23 @@ namespace Lost.UI.Controllers
             ViewBag.DateLsSortParm = sortOrder == "DateLs" ? "dateLs_desc" : "DateLs";
 
             //Paging
-            if (searchString != null)
+            if (locationString != null)
             {
                 page = 1;
             }
             else
             {
-                searchString = currentFilter;
+                locationString = currentFilter;
             }
-            ViewBag.CurrentFilter = searchString;
+            ViewBag.CurrentFilter = locationString;
             
             var lostPersons = Service.GetAllMissingPersons();
 
             //Searching
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                lostPersons = lostPersons.Where(s => s.LastName.ToLower().Contains(searchString.ToLower()) || s.FirstName.ToLower().Contains(searchString.ToLower()));
-            }
+            //if (!String.IsNullOrEmpty(searchString))
+            //{
+            //    lostPersons = lostPersons.Where(s => s.LastName.ToLower().Contains(searchString.ToLower()) || s.FirstName.ToLower().Contains(searchString.ToLower()));
+            //}
             if (!String.IsNullOrEmpty(locationString))
             {
                 lostPersons = lostPersons.Where(l => l.LocationLastSeen.ToLower().Contains(locationString.ToLower()));
@@ -78,7 +78,7 @@ namespace Lost.UI.Controllers
             }
 
             //Change pageSize to change amount of displayed rows in table
-            int pageSize = 3;
+            int pageSize = 5;
 
             //if left-hand operand is not null, return left, otherwise return right
             //a.k.a. direct IF

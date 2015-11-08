@@ -12,7 +12,6 @@ namespace Lost.Service.Common
     public interface ILostService
     {
         IEnumerable<LostPersonEntity> GetAllMissingPersons();
-        IEnumerable<LostPersonEntity> GetLostPersonIncludingRedCross();
 
         #region not used
         /*

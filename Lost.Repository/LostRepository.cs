@@ -18,15 +18,8 @@ namespace Lost.Repository
         }
         //protected SearchContext Context { get; set; }
 
-        public IQueryable<LostPersonEntity> GetAllWithRedCross()
-        {
-            var lp = _dbSet.Include("RedCrosses");
-            return lp;
-        }
-
 
         #region some testings
-        /*
         public IEnumerable<ILostPerson> GetByLocation(string location)
         {
             var person = _dbSet.Where(p => p.Location.Equals(location));
@@ -66,7 +59,7 @@ namespace Lost.Repository
             //var vrati = new List<ILostPerson>(AutoMapper.Mapper.Map<IQueryable<LostPerson>>(person));
 
             return new List<ILostPerson>(AutoMapper.Mapper.Map<ICollection<LostPerson>>(_dbSet.Where(p => p.Location.Equals(lastSeen)).ToList()));
-        }*/
+        }
         #endregion
 
 
