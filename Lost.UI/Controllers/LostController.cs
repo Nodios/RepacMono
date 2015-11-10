@@ -92,7 +92,7 @@ namespace Lost.UI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ReportMissing(LostPersonEntity lpe)
+        public ActionResult ReportMissing(ILostPerson lpe)
         {
             if (ModelState.IsValid)
             {
@@ -109,7 +109,7 @@ namespace Lost.UI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            LostPersonEntity lp = Service.GetMissingPersonById(id);
+            ILostPerson lp = Service.GetMissingPersonById(id);
             if (lp == null)
             {
                 return HttpNotFound();
@@ -123,7 +123,7 @@ namespace Lost.UI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            LostPersonEntity lp = Service.GetMissingPersonById(id);
+            ILostPerson lp = Service.GetMissingPersonById(id);
             if (lp == null)
             {
                 return HttpNotFound();
@@ -162,7 +162,7 @@ namespace Lost.UI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            LostPersonEntity lp = Service.GetMissingPersonById(id);
+            ILostPerson lp = Service.GetMissingPersonById(id);
             if (lp == null)
             {
                 return HttpNotFound();

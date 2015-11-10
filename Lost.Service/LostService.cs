@@ -14,58 +14,31 @@ namespace Lost.Service
     public class LostService : ILostService
     {
         #region Constructor
-        private IUnitOfWork _unitOfWork { get; set; }
-        private ILostRepository Repository { get; set; }
+        //private IUnitOfWork _unitOfWork { get; set; }
+        protected ILostRepository Repository { get; private set; }
 
-        public LostService(IUnitOfWork unitOfWork, ILostRepository repository)
+        public LostService(/*IUnitOfWork unitOfWork,*/ ILostRepository repository)
         {
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this.Repository = repository;
         }
         #endregion
 
         #region ILostService Members
-        public IEnumerable<LostPersonEntity> GetAllMissingPersons()
+        public IEnumerable<ILostPerson> GetAllMissingPersons()
         {
             //var all = Repository.GetAll();
-            return Repository.GetAll();
+            return Repository.GetAllMissing();
         }
         #endregion
 
-        #region not used
-        /*
-        public IEnumerable<ILostPerson> GetByLocation(string location)
-        {
-            return Repository.GetByLocation(location);
-        }
-
-        public ICollection<ILostPerson> GetByCountry(string country)
-        {
-            return Repository.GetByCountry(country);
-        }
-
-        public ICollection<ILostPerson> GetByReportDate(DateTime reportDate)
-        {
-            return Repository.GetByReportDate(reportDate);
-        }
-
-        public ICollection<ILostPerson> GetByDateLastSeen(DateTime lastSeen)
-        {
-            return Repository.GetByDateLastSeen(lastSeen);
-        }
-
-        public ICollection<ILostPerson> GetByLocationLastSeen(string lastSeen)
-        {
-            return Repository.GetByLocationLastSeen(lastSeen);
-        }*/
-        #endregion
-
-        public bool ReportMissingPerson(LostPersonEntity lpe)
+        public bool ReportMissingPerson(ILostPerson lpe)
         {
             try
             {
                 Repository.Add(lpe);
-                _unitOfWork.Commit();
+                //_unitOfWork.Commit();
+                Repository.Save();
                 return true;
             }
             catch (Exception e)
@@ -74,27 +47,30 @@ namespace Lost.Service
             }
         }
 
-        public void UpdateMissingPerson(LostPersonEntity lpe)
+        public void UpdateMissingPerson(ILostPerson lpe)
         {
             Repository.Update(lpe);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
+            Repository.Save();
         }
 
         public void DeleteMissingPerson(int id)
         {
             var delete = Repository.GetById(id);
             Repository.Delete(delete);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
+            Repository.Save();
         }
 
-        public LostPersonEntity GetMissingPersonById(int? id)
+        public ILostPerson GetMissingPersonById(int? id)
         {
             return Repository.GetById(id);
         }
 
         public void SaveMissingPerson()
         {
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
+            Repository.Save();
         }
 
 

@@ -10,8 +10,44 @@ using Lost.Repository.Common;
 
 namespace Lost.Repository
 {
-    public class EntityBase<T> : IEntityBase<T> where T : class
-    {
+    public abstract class EntityBase<T, C> : IEntityBase<T> where T : class where C : DbContext, new(){
+        private C context = new C();
+        public C Context{
+            get{return context;}
+            set{context = value;}
+        }
+
+        public virtual IQueryable<T> GetAll()
+        {
+            IQueryable<T> query = context.Set<T>();
+            return query;
+        }
+        public IQueryable<T> FindBy(System.Linq.Expressions.Expression<Func<T, bool>> predicate)
+        {
+            IQueryable<T> query = context.Set<T>().Where(predicate);
+            return query;
+        }
+        public virtual void Add(T entity)
+        {
+            context.Set<T>().Add(entity);
+        }
+        public virtual void Delete(T entity)
+        {
+            context.Set<T>().Remove(entity);
+        }
+        public virtual void Update(T entity)
+        {
+            context.Entry(entity).State = EntityState.Modified;
+        }
+        public virtual void Save()
+        {
+            context.SaveChanges();
+        }
+    }
+
+
+
+    /*{
         private SearchContext Context { get; set; }
         protected IDbSet<T> _dbSet { get; set; }
         public EntityBase(SearchContext context)
@@ -55,5 +91,5 @@ namespace Lost.Repository
         {
             return _dbSet.ToList();
         }
-    }
+    }*/
 }

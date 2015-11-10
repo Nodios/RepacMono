@@ -11,7 +11,7 @@ namespace Lost.Service.Common
 {
     public interface ILostService
     {
-        IEnumerable<LostPersonEntity> GetAllMissingPersons();
+        IEnumerable<ILostPerson> GetAllMissingPersons();
 
         #region not used
         /*
@@ -23,10 +23,10 @@ namespace Lost.Service.Common
         */
         #endregion
 
-        bool ReportMissingPerson(LostPersonEntity lpe);
-        void UpdateMissingPerson(LostPersonEntity lpe);
+        bool ReportMissingPerson(ILostPerson lpe);
+        void UpdateMissingPerson(ILostPerson lpe);
         void DeleteMissingPerson(int id);
-        LostPersonEntity GetMissingPersonById(int? id);
+        ILostPerson GetMissingPersonById(int? id);
         void SaveMissingPerson();
     }
 }
