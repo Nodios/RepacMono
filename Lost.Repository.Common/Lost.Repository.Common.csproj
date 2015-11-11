@@ -39,8 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IDBInteractions\IEntityBase.cs" />
-    <Compile Include="IDBInteractions\IUnitOfWork.cs" />
+    <Compile Include="IGenericRepository\IGenericRepository.cs" />
+    <Compile Include="IGenericRepository\IUnitOfWork.cs" />
     <Compile Include="ILostRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

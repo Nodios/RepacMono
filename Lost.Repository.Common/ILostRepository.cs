@@ -8,12 +8,8 @@ using Lost.DAL;
 
 namespace Lost.Repository.Common
 {
-    public interface ILostRepository : IEntityBase<ILostPerson>
+    public interface ILostRepository : IGenericRepository<ILostPerson>
     {
-        void Add(ILostPerson lp);
-        void Update(ILostPerson lp);
-        void Delete(ILostPerson lp);
-        ILostPerson GetById(int? id);
-        IEnumerable<ILostPerson> GetAllMissing();
+        ILostPerson GetById(int id);
     }
 }

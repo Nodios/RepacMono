@@ -11,117 +11,21 @@ using System.Threading.Tasks;
 
 namespace Lost.Service
 {
-    public class LostService : ILostService
+    public class LostService : EntityService<ILostPerson>, ILostService
     {
-        #region Constructor
-        //private IUnitOfWork _unitOfWork { get; set; }
-        protected ILostRepository Repository { get; private set; }
+        IUnitOfWork unitOfWork;
+        ILostRepository lostRepository;
 
-        public LostService(/*IUnitOfWork unitOfWork,*/ ILostRepository repository)
+        public LostService(IUnitOfWork unitOfWork, ILostRepository lostRepository) 
+            : base(unitOfWork, lostRepository)
         {
-            //this._unitOfWork = unitOfWork;
-            this.Repository = repository;
-        }
-        #endregion
-
-        #region ILostService Members
-        public IEnumerable<ILostPerson> GetAllMissingPersons()
-        {
-            //var all = Repository.GetAll();
-            return Repository.GetAllMissing();
-        }
-        #endregion
-
-        public bool ReportMissingPerson(ILostPerson lpe)
-        {
-            try
-            {
-                Repository.Add(lpe);
-                //_unitOfWork.Commit();
-                Repository.Save();
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+            this.unitOfWork = unitOfWork;
+            this.lostRepository = lostRepository;
         }
 
-        public void UpdateMissingPerson(ILostPerson lpe)
+        public ILostPerson GetById(int id)
         {
-            Repository.Update(lpe);
-            //_unitOfWork.Commit();
-            Repository.Save();
+            return lostRepository.GetById(id);
         }
-
-        public void DeleteMissingPerson(int id)
-        {
-            var delete = Repository.GetById(id);
-            Repository.Delete(delete);
-            //_unitOfWork.Commit();
-            Repository.Save();
-        }
-
-        public ILostPerson GetMissingPersonById(int? id)
-        {
-            return Repository.GetById(id);
-        }
-
-        public void SaveMissingPerson()
-        {
-            //_unitOfWork.Commit();
-            Repository.Save();
-        }
-
-
-        #region Comments
-        /*
-        public List<ILostPerson> GetAllMissingPersons()
-        {
-            return Repository.GetAllLostPersons().Where(p => p.IsFound).ToList();
-        }
-        public List<ILostPerson> GetByLocation(string location)
-        {
-            return Repository.GetByLocation(location).ToList();
-        }
-        public List<ILostPerson> GetByCountry(string country)
-        {
-            return Repository.GetByCountry(country).ToList();
-        }
-        public List<ILostPerson> GetByReportDate(DateTime reportDate)
-        {
-            return Repository.GetByReportDate(reportDate).ToList();
-        }
-        public List<ILostPerson> GetByDateLastSeen(DateTime lastSeen)
-        {
-            return Repository.GetByDateLastSeen(lastSeen).ToList();
-        }
-        public List<ILostPerson> GetByLocationLastSeen(string lastSeen)
-        {
-            return Repository.GetByLocationLastSeen(lastSeen).ToList();
-        }
-        public ILostPerson GetLostPersonById(int id)
-        {
-            return Repository.GetLostPersonById(id);
-        }
-
-        public bool ReportMissingPerson(int id)
-        {
-            if (!Repository.GetAllLostPersons().First(m => m.Id.Equals(id)).IsFound)
-            {
-                throw new ArgumentOutOfRangeException("IsFound");
-            }
-            return Repository.ReportMissingPerson(id);
-        }
-        public List<IRedCross> GetAllRedCrosses()
-        {
-            return Repository.GetAllRedCrosses().ToList();
-        }
-        public bool RemoveMissingPerson(int id)
-        {
-            return Repository.RemoveMissingPerson(id);
-        }*/
-        #endregion
-
     }
 }

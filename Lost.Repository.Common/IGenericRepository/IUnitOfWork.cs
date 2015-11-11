@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Lost.Repository.Common
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
-        bool Commit();
+        int Commit();
     }
 }

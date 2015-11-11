@@ -10,25 +10,16 @@ using System.Data.Entity.Validation;
 
 namespace Lost.Repository
 {
-    public class LostRepository : EntityBase<ILostPerson, SearchContext>, ILostRepository
+    public class LostRepository : GenericRepository<ILostPerson>, ILostRepository
     {
-        public IQueryable<ILostPerson> GetFromLocation(string loc)
+        public LostRepository(SearchContext context)
+            : base(context)
         {
-            var query = GetAll().Where(x => x.LocationLastSeen.Equals(loc));
 
-            return AutoMapper.Mapper.Map<IQueryable<ILostPerson>>(query);
         }
-
-        public ILostPerson GetById(int? id)
+        public ILostPerson GetById(int id)
         {
-            var query = GetAll().Where(x => x.Id.Equals(id));
-
-            return AutoMapper.Mapper.Map<ILostPerson>(query);
-        }
-
-        public IEnumerable<ILostPerson> GetAllMissing()
-        {
-            return AutoMapper.Mapper.Map<IQueryable<ILostPerson>>(GetAll());
+            return dbSet.Include(x => x.IsFound == true).Where(x => x.Id == id).FirstOrDefault();
         }
     }
 }

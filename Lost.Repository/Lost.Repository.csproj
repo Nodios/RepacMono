@@ -56,9 +56,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DBInteractions\EntityBase.cs" />
-    <Compile Include="DBInteractions\UnitOfWork.cs" />
     <Compile Include="DIModule.cs" />
+    <Compile Include="GenericRepository\GenericRepository.cs" />
+    <Compile Include="GenericRepository\UnitOfWork.cs" />
     <Compile Include="LostRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

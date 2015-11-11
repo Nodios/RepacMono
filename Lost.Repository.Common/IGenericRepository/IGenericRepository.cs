@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Lost.Repository.Common
 {
-    public interface IEntityBase<T> where T : class
+    public interface IGenericRepository<T> where T : class
     {
-        IQueryable<T> GetAll();
-        IQueryable<T> FindBy(Expression<Func<T, bool>> predicate);
-        void Add(T entity);
-        void Delete(T entity);
+        IEnumerable<T> GetAll();
+        IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate);
+        T Add(T entity);
         void Update(T entity);
+        T Delete(T entity);
         void Save();
     }
 }
