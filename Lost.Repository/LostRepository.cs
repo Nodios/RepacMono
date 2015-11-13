@@ -10,16 +10,16 @@ using System.Data.Entity.Validation;
 
 namespace Lost.Repository
 {
-    public class LostRepository : GenericRepository<ILostPerson>, ILostRepository
+    public class LostRepository : GenericRepository<LostPersonEntity>, ILostRepository
     {
         public LostRepository(SearchContext context)
             : base(context)
         {
-
         }
-        public ILostPerson GetById(int id)
+        public IQueryable<LostPersonEntity> GetById(int id)
         {
-            return dbSet.Include(x => x.IsFound == true).Where(x => x.Id == id).FirstOrDefault();
+            var query = dbSet.Where(x => x.Id == id);
+            return query;
         }
     }
 }

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lost.Model.Common;
 using Lost.DAL;
+using Lost.Model.Common;
 
 namespace Lost.Repository.Common
 {
-    public interface ILostRepository : IGenericRepository<LostPersonEntity>
+    public interface IRedRepository : IGenericRepository<RedCrossEntity>
     {
-        LostPersonEntity GetById(int id);
+        RedCrossEntity GetById(int id);
     }
 }

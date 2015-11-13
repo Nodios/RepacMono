@@ -42,6 +42,7 @@
     <Compile Include="IGenericRepository\IGenericRepository.cs" />
     <Compile Include="IGenericRepository\IUnitOfWork.cs" />
     <Compile Include="ILostRepository.cs" />
+    <Compile Include="IRedRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

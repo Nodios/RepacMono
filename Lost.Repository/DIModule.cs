@@ -10,17 +10,12 @@ namespace Lost.Repository
     {
         public override void Load()
         {
-            //                             SOURCE         DESTINATION
-            AutoMapper.Mapper.CreateMap<LostPersonEntity, LostPerson>().ReverseMap();
-            AutoMapper.Mapper.CreateMap<LostPersonEntity, ILostPerson>().ReverseMap();
-            AutoMapper.Mapper.CreateMap<ILostPerson, LostPerson>().ReverseMap();
+            //Only one context to exist
+            Bind<ISearchContext>().To<SearchContext>().InSingletonScope();
 
-            AutoMapper.Mapper.CreateMap<RedCrossEntity, RedCross>().ReverseMap();
-            AutoMapper.Mapper.CreateMap<RedCrossEntity, IRedCross>().ReverseMap();
-            AutoMapper.Mapper.CreateMap<IRedCross, RedCross>().ReverseMap();
-
-            Bind<ISearchContext>().To<SearchContext>();
+            Bind(typeof(IGenericRepository<>)).To(typeof(GenericRepository<>));
             Bind<ILostRepository>().To<LostRepository>();
+            Bind<IRedRepository>().To<RedRepository>();
 
             Bind<IUnitOfWork>().To<UnitOfWork>();
         }

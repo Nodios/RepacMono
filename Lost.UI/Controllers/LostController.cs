@@ -15,11 +15,11 @@ namespace Lost.UI.Controllers
     public class LostController : Controller
     {
         #region Constructor
-        ILostService lostService;
+        protected ILostService Service { get; private set; }
 
         public LostController(ILostService lostService)
         {
-            this.lostService = lostService;
+            this.Service = lostService;
         }
         #endregion
 
@@ -43,7 +43,7 @@ namespace Lost.UI.Controllers
             }
             ViewBag.CurrentFilter = locationString;
 
-            var lostPersons = lostService.GetAll();
+            var lostPersons = Service.GetAllMissing();
 
 
             if (!String.IsNullOrEmpty(locationString))
@@ -89,11 +89,11 @@ namespace Lost.UI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ReportMissing(ILostPerson lpe)
+        public ActionResult ReportMissing(LostPersonEntity lpe)
         {
             if (ModelState.IsValid)
             {
-                lostService.Create(lpe);
+                Service.Create(lpe);
                 return RedirectToAction("Index");
             }
 
@@ -105,7 +105,7 @@ namespace Lost.UI.Controllers
             //{
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //}
-            ILostPerson lp = lostService.GetById(id);
+            LostPersonEntity lp = Service.GetById(id);
             if (lp == null)
             {
                 return HttpNotFound();
@@ -119,7 +119,7 @@ namespace Lost.UI.Controllers
             //{
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //}
-            ILostPerson lp = lostService.GetById(id);
+            LostPersonEntity lp = Service.GetById(id);
             if (lp == null)
             {
                 return HttpNotFound();
@@ -131,16 +131,16 @@ namespace Lost.UI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditPost(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var personToUpdate = lostService.GetById(id);
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            var personToUpdate = Service.GetById(id);
             if (TryUpdateModel(personToUpdate))
             {
                 try
                 {
-                    lostService.Update(personToUpdate);
+                    Service.Update(personToUpdate);
                     return RedirectToAction("Index");
                 }
                 catch(DataException /*dex*/)
@@ -157,7 +157,7 @@ namespace Lost.UI.Controllers
             //{
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //}
-            ILostPerson lp = lostService.GetById(id);
+            LostPersonEntity lp = Service.GetById(id);
             if (lp == null)
             {
                 return HttpNotFound();
@@ -169,10 +169,10 @@ namespace Lost.UI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirm(int id)
         {
-            ILostPerson lp = lostService.GetById(id);
+            LostPersonEntity lp = Service.GetById(id);
             try
             {
-                lostService.Delete(lp);
+                Service.Delete(lp);
             }
             catch (DataException /*dex*/)
             {

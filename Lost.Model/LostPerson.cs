@@ -37,7 +37,7 @@ namespace Lost.Model
         //Foreign key
         public int RedCrossId { get; set; }
         
-        //Navigation
+        //Navigation: one to one
         public IRedCross RedCross { get; set; }
     }
 }

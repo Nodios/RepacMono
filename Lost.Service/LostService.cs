@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Lost.Service
 {
-    public class LostService : EntityService<ILostPerson>, ILostService
+    public class LostService : EntityService<LostPersonEntity>, ILostService
     {
         IUnitOfWork unitOfWork;
         ILostRepository lostRepository;
@@ -23,9 +23,13 @@ namespace Lost.Service
             this.lostRepository = lostRepository;
         }
 
-        public ILostPerson GetById(int id)
+        public LostPersonEntity GetById(int id)
         {
             return lostRepository.GetById(id);
+        }
+        public IEnumerable<LostPersonEntity> GetAllMissing()
+        {
+            return lostRepository.GetAll().Where(x => x.IsFound == false);
         }
     }
 }

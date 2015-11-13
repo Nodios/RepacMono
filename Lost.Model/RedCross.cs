@@ -12,6 +12,7 @@ namespace Lost.Model
         public string Country { get; set; }
         public string PersonInCharge { get; set; }
 
+        //Navigation one to many
         public ICollection<ILostPerson> LostPersons { get; set; }
     }
 }

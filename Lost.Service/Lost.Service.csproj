@@ -49,6 +49,7 @@
     <Compile Include="EntityService.cs" />
     <Compile Include="LostService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RedService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lost.DAL\Lost.DAL.csproj">
