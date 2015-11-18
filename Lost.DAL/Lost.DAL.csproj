@@ -46,9 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\LostPersonEntity.cs" />
-    <Compile Include="Entities\RedCrossEntity.cs" />
     <Compile Include="ISearchContext.cs" />
+    <Compile Include="Models\LostPersonEntity.cs" />
+    <Compile Include="Mapping\LostPersonEntityMap.cs" />
+    <Compile Include="Mapping\RedCrossEntityMap.cs" />
+    <Compile Include="Models\RedCrossEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchContext.cs" />
     <Compile Include="SearchInitializer.cs" />

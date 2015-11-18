@@ -7,13 +7,16 @@ using System.Threading.Tasks;
 
 namespace Lost.Repository.Common
 {
-    public interface IGenericRepository<T> where T : class
+    public interface IGenericRepository
     {
-        IEnumerable<T> GetAll();
-        IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate);
-        T Add(T entity);
-        void Update(T entity);
-        T Delete(T entity);
-        void Save();
+        IUnitOfWork CreateUnitOfWork();
+        Task<T> GetAsync<T>(int id) where T : class;
+        IQueryable<T> Where<T>() where T : class;
+        Task<T> GetAsync<T>(Expression<Func<T, bool>> match) where T : class;
+        Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> match) where T : class;
+        Task<int> AddAsync<T>(T entity) where T : class;
+        Task<int> UpdateAsync<T>(T entity) where T : class;
+        Task<int> DeleteAsync<T>(T entity) where T : class;
+        Task<int> DeleteAsync<T>(int id) where T : class;
     }
 }

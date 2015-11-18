@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,6 +9,11 @@ namespace Lost.Repository.Common
 {
     public interface IUnitOfWork : IDisposable
     {
-        int Commit();
+        Task<T> AddAsync<T>(T entity) where T : class;
+        Task<T> Update<T>(T entity) where T : class;
+        Task<int> DeleteAsync<T>(T entity) where T : class;
+        Task<int> DeleteAsync<T>(int id) where T : class;
+        Task<int> DeleteAsync<T>(Expression<Func<T, bool>> match) where T : class;
+        Task<int> CommitAsync();
     }
 }

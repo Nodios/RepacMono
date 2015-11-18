@@ -7,45 +7,123 @@ using Lost.Repository.Common;
 using Lost.DAL;
 using Lost.Model.Common;
 using System.Data.Entity;
+using Lost.Repository.Common;
+using System.Linq.Expressions;
+using System.Data.Entity.Infrastructure;
 
 namespace Lost.Repository
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository : IGenericRepository
     {
-        protected SearchContext Context;
-        protected readonly IDbSet<T> dbSet;
-        public GenericRepository(SearchContext context)
+        protected ISearchContext Context { get; private set; }
+        protected IUnitOfWorkFactory UoWFac { get; private set; }
+
+        public GenericRepository(ISearchContext context, IUnitOfWorkFactory uoWFac)
         {
-            Context = context;
-            dbSet = context.Set<T>();
+            if (context == null) throw new ArgumentNullException("context is null");
+
+            this.Context = context;
+            this.UoWFac = uoWFac;
         }
 
-        public virtual IEnumerable<T> GetAll()
+        public IUnitOfWork CreateUnitOfWork()
         {
-            return dbSet.AsEnumerable<T>();
+            return UoWFac.CreateUnitOfWork();
         }
-        public virtual IEnumerable<T> FindBy(System.Linq.Expressions.Expression<Func<T, bool>> predicate)
+        /// <summary>
+        /// Fetch single entity
+        /// </summary>
+        /// <typeparam name="T">entity type</typeparam>
+        /// <param name="id">entity id</param>
+        /// <returns>entity or null</returns>
+        public Task<T> GetAsync<T>(int id) where T : class
         {
-            IEnumerable<T> query = dbSet.Where(predicate).AsEnumerable();
-            return query;
+            return Context.Set<T>().FindAsync(id);
         }
-        public virtual T Add(T entity)
+        /// <summary>
+        /// Get where
+        /// </summary>
+        /// <typeparam name="T">entity type</typeparam>
+        public IQueryable<T> Where<T>() where T : class
         {
-            return dbSet.Add(entity);
+            return Context.Set<T>();
+        }
+        /// <summary>
+        /// Find entity by match
+        /// </summary>
+        /// <typeparam name="T">entity type</typeparam>
+        /// <param name="match">expression</param>
+        /// <returns>entity or null</returns>
+        public async Task<T> GetAsync<T>(Expression<Func<T, bool>> match) where T : class
+        {
+            return await Context.Set<T>().FirstAsync(match);
+        }
+        /// <summary>
+        /// Find entities
+        /// </summary>
+        /// <typeparam name="T">entity type</typeparam>
+        /// <param name="match">expression</param>
+        /// <returns>list of entities or null</returns>
+        public async Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> match) where T : class
+        {
+            return await Context.Set<T>().Where(match).ToListAsync();
+        }
+        /// <summary>
+        /// Adds entity.
+        /// </summary>
+        /// <typeparam name="T">entity type</typeparam>
+        /// <param name="entity">entity to add</param>
+        /// <returns>entity</returns>
+        public async Task<int> AddAsync<T>(T entity) where T : class
+        {
+            try
+            {
+                Context.Set<T>().Add(entity);
+                return await Context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public virtual void Update(T entity)
+        public async Task<int> UpdateAsync<T>(T entity) where T : class
         {
-            Context.Entry(entity).State = EntityState.Modified;
+            DbEntityEntry entry = Context.Entry(entity);
+            if (entry.State == EntityState.Detached) Context.Set<T>().Attach(entity); //.Detached - the entity is not being tracked by the context: https://msdn.microsoft.com/en-us/data/jj592676.aspx
+            entry.State = EntityState.Modified; //The entity is being tracked by the context and exists in the database, and some or all of its property values have been modified
+            try
+            {
+                return await Context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
-
-        public virtual T Delete(T entity)
+        /// <summary>
+        /// Deletes entity
+        /// </summary>
+        public async Task<int> DeleteAsync<T>(T entity) where T : class
         {
-            return dbSet.Remove(entity);
+            try
+            {
+                Context.Set<T>().Remove(entity);
+                return await Context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
-        public virtual void Save()
+        /// <summary>
+        /// Deletes entity
+        /// </summary>
+        public async Task<int> DeleteAsync<T>(int id) where T : class
         {
-            Context.SaveChanges();
+            T entity = await GetAsync<T>(id); //dohvati entity sa id
+            if (entity == null) throw new ArgumentNullException("entity is null, does not exist");
+            return await DeleteAsync<T>(entity); //call delete method above and delete entity with id id
         }
     }
 }

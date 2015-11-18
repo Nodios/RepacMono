@@ -1,23 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using Lost.DAL.Mapping;
+using Lost.DAL.Models;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace Lost.DAL
 {
-    public class SearchContext : DbContext, ISearchContext
+    public partial class SearchContext : DbContext, ISearchContext
     {
-        public SearchContext() : base("SearchContext")
+        //static SearchContext()
+        //{
+        //    Database.SetInitializer<SearchContext>(null);
+        //}
+
+        public SearchContext()
+            : base("Name=SearchContext")
         {
         }
 
-        public DbSet<LostPersonEntity> LostPersons { get; set; }
-        public DbSet<RedCrossEntity> RedCrosses { get; set; }
+        public DbSet<LostPersonEntity> LostPersonEntities { get; set; }
+        public DbSet<RedCrossEntity> RedCrossEntities { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            //Singular table names
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            modelBuilder.Configurations.Add(new LostPersonEntityMap());
+            modelBuilder.Configurations.Add(new RedCrossEntityMap());
+
+            modelBuilder.Conventions.Add<PluralizingTableNameConvention>();
+        }
+
+        public override DbSet<T> Set<T>()
+        {
+            return base.Set<T>();
         }
     }
 }
