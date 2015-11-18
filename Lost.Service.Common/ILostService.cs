@@ -8,9 +8,12 @@ using Lost.DAL;
 
 namespace Lost.Service.Common
 {
-    public interface ILostService : IEntityService<LostPersonEntity>
+    public interface ILostService
     {
-        IEnumerable<LostPersonEntity> GetById(int id);
-        IEnumerable<LostPersonEntity> GetAllMissing();
+        Task<ILostPerson> FindByIdAsync(int id);
+        Task<IEnumerable<ILostPerson>> GetAllLostPersons();
+        Task<int> ReportLostPerson(ILostPerson lp);
+        Task<int> UpdateLostPerson(ILostPerson lp);
+        Task<int> DeleteMissingPerson(ILostPerson lp);
     }
 }

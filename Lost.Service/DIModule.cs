@@ -8,7 +8,6 @@ namespace Lost.Service
     {
         public override void Load()
         {
-            Bind(typeof(IEntityService<>)).To(typeof(EntityService<>));
             Bind<ILostService>().To<LostService>();
             Bind<IRedService>().To<RedService>();
         }

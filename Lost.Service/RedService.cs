@@ -10,27 +10,8 @@ using Lost.DAL;
 
 namespace Lost.Service
 {
-    public class RedService : EntityService<RedCrossEntity>, IRedService
+    public class RedService : IRedService
     {
-        IUnitOfWork unitOfWork;
-        IRedRepository redRepository;
-
-        public RedService(IUnitOfWork unitOfWork, IRedRepository redRepository) 
-            : base(unitOfWork, redRepository)
-        {
-            this.unitOfWork = unitOfWork;
-            this.redRepository = redRepository;
-        }
-
-        public IEnumerable<RedCrossEntity> GetById(int id)
-        {
-            //return redRepository.GetById(id);
-            return redRepository.FindBy(x => x.Id == id);
-        }
-
-        public IEnumerable<RedCrossEntity> GetByCountry(string country)
-        {
-            return redRepository.GetAll().Where(x => x.Country == country);
-        }
+        
     }
 }

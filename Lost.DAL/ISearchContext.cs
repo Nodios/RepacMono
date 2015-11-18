@@ -6,7 +6,7 @@ using Lost.DAL.Models;
 
 namespace Lost.DAL
 {
-    public interface ISearchContext
+    public interface ISearchContext : IDisposable
     {
         DbSet<LostPersonEntity> LostPersons { get; set; }
         DbSet<RedCrossEntity> RedCrosses { get; set; }

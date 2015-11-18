@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using Lost.DAL.Models;
 
 namespace Lost.DAL
 {
@@ -11,6 +12,19 @@ namespace Lost.DAL
     {
         protected override void Seed(SearchContext context)
         {
+            var redCrosses = new List<RedCrossEntity>
+            {
+                new RedCrossEntity
+                {
+                    Name="GDCK Osijek", 
+                    City="Osijek", 
+                    Country="Croatia",
+                    PersonInCharge="Goran Latkovic"
+                }
+            };
+            redCrosses.ForEach(s => context.RedCrosses.Add(s));
+            context.SaveChanges();
+
             var lostPersons = new List<LostPersonEntity>
             {
                 new LostPersonEntity
@@ -59,18 +73,7 @@ namespace Lost.DAL
             lostPersons.ForEach(s => context.LostPersons.Add(s));
             context.SaveChanges();
 
-            var redCrosses = new List<RedCrossEntity>
-            {
-                new RedCrossEntity
-                {
-                    Name="GDCK Osijek", 
-                    City="Osijek", 
-                    Country="Croatia",
-                    PersonInCharge="Goran Latkovic"
-                }
-            };
-            redCrosses.ForEach(s => context.RedCrosses.Add(s));
-            context.SaveChanges();
+            
         }
     }
 }

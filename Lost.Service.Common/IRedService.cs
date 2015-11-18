@@ -8,9 +8,8 @@ using Lost.DAL;
 
 namespace Lost.Service.Common
 {
-    public interface IRedService : IEntityService<RedCrossEntity>
+    public interface IRedService
     {
-        IEnumerable<RedCrossEntity> GetById(int id);
-        IEnumerable<RedCrossEntity> GetByCountry(string country);
+
     }
 }

@@ -11,25 +11,39 @@ using System.Threading.Tasks;
 
 namespace Lost.Service
 {
-    public class LostService : EntityService<LostPersonEntity>, ILostService
+    public class LostService : ILostService
     {
-        IUnitOfWork unitOfWork;
-        ILostRepository lostRepository;
+        private readonly ILostRepository lostRepository;
 
-        public LostService(IUnitOfWork unitOfWork, ILostRepository lostRepository) 
-            : base(unitOfWork, lostRepository)
+        public LostService(ILostRepository lostRepository)
         {
-            this.unitOfWork = unitOfWork;
             this.lostRepository = lostRepository;
+            if (lostRepository == null) throw new ArgumentNullException("lostRepository is null. Must be ILostRepository");
         }
 
-        public LostPersonEntity GetById(int id)
+        public Task<ILostPerson> FindByIdAsync(int id)
         {
-            return lostRepository.GetById(id);
+            return lostRepository.GetAsync(id);
         }
-        public IEnumerable<LostPersonEntity> GetAllMissing()
+
+        public Task<IEnumerable<ILostPerson>> GetAllLostPersons()
         {
-            return lostRepository.GetAll().Where(x => x.IsFound == false);
+            return lostRepository.GetEveryoneAsync();
+        }
+
+        public Task<int> ReportLostPerson(ILostPerson lp)
+        {
+            return lostRepository.AddAsync(lp);
+        }
+
+        public Task<int> UpdateLostPerson(ILostPerson lp)
+        {
+            return lostRepository.UpdateAsync(lp);
+        }
+
+        public Task<int> DeleteMissingPerson(ILostPerson lp)
+        {
+            return lostRepository.DeleteAsync(lp);
         }
     }
 }

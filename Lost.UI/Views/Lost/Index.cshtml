@@ -1,5 +1,4 @@
-﻿@model PagedList.IPagedList<Lost.DAL.LostPersonEntity>
-@using PagedList.Mvc
+﻿@model IEnumerable<Lost.Model.Common.ILostPerson>
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
@@ -24,16 +23,16 @@
             First name
         </th>
         <th>
-            @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter})
+            Last Name
         </th>
         <th>
             Location last seen
         </th>
         <th>
-            @Html.ActionLink("Date Last seen", "Index", new { sortOrder = ViewBag.DateLsNameParm, currentFilter = ViewBag.CurrentFilter })
+            Date last seen
         </th>
         <th>
-            @Html.ActionLink("Report Date", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+            Report date
         </th>
     </tr>
     @foreach (var item in Model)
@@ -64,6 +63,3 @@
     }
 </table>
 <br />
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter}))

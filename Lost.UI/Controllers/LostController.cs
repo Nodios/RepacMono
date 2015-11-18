@@ -9,180 +9,34 @@ using Lost.DAL;
 using System.Net;
 using System.Data;
 using PagedList;
+using System.Threading.Tasks;
+using Lost.UI.Models;
 
 namespace Lost.UI.Controllers
 {
     public class LostController : Controller
     {
         #region Constructor
-        protected ILostService Service { get; private set; }
+        private readonly ILostService LostService;
 
         public LostController(ILostService lostService)
         {
-            this.Service = lostService;
+            LostService = lostService;
         }
         #endregion
 
-        #region Methods
-        //TODO: Implement more search options.
-        public ActionResult Index(string sortOrder, string locationString, string currentFilter, int? page)
+        #region methods
+        public async Task<ActionResult> Index()
         {
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-            ViewBag.DateLsSortParm = sortOrder == "DateLs" ? "dateLs_desc" : "DateLs";
-
-            //Paging
-            if (locationString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                locationString = currentFilter;
-            }
-            ViewBag.CurrentFilter = locationString;
-
-            var lostPersons = Service.GetAllMissing();
-
-
-            if (!String.IsNullOrEmpty(locationString))
-            {
-                lostPersons = lostPersons.Where(l => l.LocationLastSeen.ToLower().Contains(locationString.ToLower()));
-            }
-
-            //Sorting
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    lostPersons = lostPersons.OrderByDescending(s => s.LastName);
-                    break;
-                case "Date":
-                    lostPersons = lostPersons.OrderBy(s => s.ReportDate);
-                    break;
-                case "date_desc":
-                    lostPersons = lostPersons.OrderByDescending(s => s.ReportDate);
-                    break;
-                case "DateLs":
-                    lostPersons = lostPersons.OrderBy(s => s.DateLastSeen);
-                    break;
-                case "dateLs_desc":
-                    lostPersons = lostPersons.OrderByDescending(s => s.DateLastSeen);
-                    break;
-                default:
-                    lostPersons = lostPersons.OrderBy(s => s.LastName);
-                    break;
-            }
-
-            //Change pageSize to change amount of displayed rows in table
-            int pageSize = 5;
-
-            //if left-hand operand is not null, return left, otherwise return right
-            //a.k.a. direct IF
-            int pageNumber = (page ?? 1);
-
-            return View(lostPersons.ToPagedList(pageNumber, pageSize));
-        }
-        public ActionResult ReportMissing()
-        {
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ReportMissing(LostPersonEntity lpe)
-        {
-            if (ModelState.IsValid)
-            {
-                Service.Create(lpe);
-                return RedirectToAction("Index");
-            }
-
-            return View(lpe);
-        }
-        public ActionResult Details(int id)
-        {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            LostPersonEntity lp = Service.GetById(id);
-            if (lp == null)
-            {
-                return HttpNotFound();
-            }
-            return View(lp);
-        }
-
-        public ActionResult Edit(int id)
-        {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            LostPersonEntity lp = Service.GetById(id);
-            if (lp == null)
-            {
-                return HttpNotFound();
-            }
-            return View(lp);
-        }
-
-        [HttpPost, ActionName("Edit")]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditPost(int id)
-        {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            var personToUpdate = Service.GetById(id);
-            if (TryUpdateModel(personToUpdate))
-            {
-                try
-                {
-                    Service.Update(personToUpdate);
-                    return RedirectToAction("Index");
-                }
-                catch(DataException /*dex*/)
-                {
-                    ModelState.AddModelError("", "nesto");
-                }
-            }
-            return View(personToUpdate);
-        }
-
-        public ActionResult Delete(int id)
-        {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            LostPersonEntity lp = Service.GetById(id);
-            if (lp == null)
-            {
-                return HttpNotFound();
-            }
-            return View(lp);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirm(int id)
-        {
-            LostPersonEntity lp = Service.GetById(id);
             try
             {
-                Service.Delete(lp);
+                var lostPersons = await LostService.GetAllLostPersons();
+                return View(lostPersons);
             }
-            catch (DataException /*dex*/)
+            catch (Exception ex)
             {
-                return RedirectToAction("Delete", new { id = id });
+                throw ex;
             }
-            return RedirectToAction("Index");
-        }
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
         }
         #endregion
     }

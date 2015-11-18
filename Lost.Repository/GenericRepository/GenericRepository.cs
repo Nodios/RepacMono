@@ -7,7 +7,6 @@ using Lost.Repository.Common;
 using Lost.DAL;
 using Lost.Model.Common;
 using System.Data.Entity;
-using Lost.Repository.Common;
 using System.Linq.Expressions;
 using System.Data.Entity.Infrastructure;
 

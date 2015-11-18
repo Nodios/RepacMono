@@ -18,8 +18,8 @@ namespace Lost.DAL
         {
         }
 
-        public DbSet<LostPersonEntity> LostPersonEntities { get; set; }
-        public DbSet<RedCrossEntity> RedCrossEntities { get; set; }
+        public DbSet<LostPersonEntity> LostPersons { get; set; }
+        public DbSet<RedCrossEntity> RedCrosses { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
