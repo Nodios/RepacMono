@@ -63,17 +63,23 @@ namespace Lost.Repository
         /// </summary>
         /// <typeparam name="T">entity type</typeparam>
         /// <param name="match">expression</param>
-        /// <returns>list of entities or null</returns>
+        /// <returns>list of T entities or null</returns>
         public async Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> match) where T : class
         {
             return await Context.Set<T>().Where(match).ToListAsync();
         }
         /// <summary>
-        /// Adds entity.
+        /// Get all entities
         /// </summary>
         /// <typeparam name="T">entity type</typeparam>
-        /// <param name="entity">entity to add</param>
-        /// <returns>entity</returns>
+        /// <returns>list of T entities or null</returns>
+        public async Task<IEnumerable<T>> GetEverything<T>() where T : class
+        {
+            return await Context.Set<T>().ToListAsync();
+        }
+
+
+        //ADD, UPDATE, DELETE
         public async Task<int> AddAsync<T>(T entity) where T : class
         {
             try

@@ -5,11 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Lost.Model.Common;
 using Lost.DAL;
+using System.Linq.Expressions;
 
 namespace Lost.Repository.Common
 {
-    public interface ILostRepository : IGenericRepository<LostPersonEntity>
+    public interface ILostRepository
     {
-        LostPersonEntity GetById(int id);
+        Task<ILostPerson> GetAsync(int id);
+        Task<IEnumerable<ILostPerson>> GetAllAsync(int redCrossId);
+        Task<IEnumerable<ILostPerson>> GetEveryoneAsync();
+
+        Task<int> AddAsync(ILostPerson lp);
+        Task<int> UpdateAsync(ILostPerson lp);
+        Task<int> DeleteAsync(ILostPerson lp);
+        Task<int> DeleteAsync(params int[] id);
     }
 }

@@ -3,6 +3,7 @@ using Lost.DAL;
 using Lost.Model;
 using Lost.Model.Common;
 using Lost.Repository.Common;
+using Ninject.Extensions.Factory;
 
 namespace Lost.Repository
 {
@@ -10,14 +11,19 @@ namespace Lost.Repository
     {
         public override void Load()
         {
-            //Only one context to exist
-            Bind<ISearchContext>().To<SearchContext>().InSingletonScope();
+            //Context
+            Bind<ISearchContext>().To<SearchContext>();//.InSingletonScope()
 
-            Bind(typeof(IGenericRepository<>)).To(typeof(GenericRepository<>));
+            //Generic repository and unit of work
+            Bind<IGenericRepository>().To<GenericRepository>();
+            Bind<IUnitOfWork>().To<UnitOfWork>();
+            Bind<IUnitOfWorkFactory>().ToFactory(); //specified by: https://github.com/ninject/Ninject.Extensions.Factory/wiki/Factory-interface
+
+
             Bind<ILostRepository>().To<LostRepository>();
             Bind<IRedRepository>().To<RedRepository>();
 
-            Bind<IUnitOfWork>().To<UnitOfWork>();
+
         }
     }
 }

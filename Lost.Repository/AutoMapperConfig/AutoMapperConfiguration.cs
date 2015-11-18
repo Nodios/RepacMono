@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lost.DAL;
+using Lost.DAL.Models;
 using Lost.Model;
 using Lost.Model.Common;
 using Lost.Repository.Common;
