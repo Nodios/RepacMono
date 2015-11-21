@@ -23,9 +23,13 @@ namespace Lost.DAL
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            //modelBuilder.Entity<LostPersonEntity>();
             modelBuilder.Configurations.Add(new LostPersonEntityMap());
+            
+            //modelBuilder.Entity<RedCrossEntity>();
             modelBuilder.Configurations.Add(new RedCrossEntityMap());
 
+            //singular table names
             modelBuilder.Conventions.Add<PluralizingTableNameConvention>();
         }
 

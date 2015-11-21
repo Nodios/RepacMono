@@ -41,7 +41,7 @@ namespace Lost.UI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ReportMissing(LostPersonModel lpm)
+        public async Task<ActionResult> ReportMissing(LostPersonEntity lpm)
         {
             try
             {
@@ -58,12 +58,56 @@ namespace Lost.UI.Controllers
                 throw ex;
             }
         }
-        public async Task<ActionResult> Edit(LostPersonModel lpm)
+        public async Task<ActionResult> Details(int id)
+        {
+            //if (id == null)  return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            ILostPerson lp = await LostService.FindByIdAsync(id);
+
+            if (lp == null) return HttpNotFound();
+
+            return View(lp);
+        }
+
+        public async Task<ActionResult> Edit(int id)
         {
             try
             {
-                await LostService.UpdateLostPerson(AutoMapper.Mapper.Map<ILostPerson>(lpm));
-                return View(lpm);
+                //if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                var lp = await LostService.FindByIdAsync(id);
+
+                if (lp == null) return HttpNotFound();
+
+                return View(lp);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditPost(int id)
+        {
+            try
+            {
+                if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                var personToUpdate = LostService.FindByIdAsync(id);
+                if (TryUpdateModel(personToUpdate))
+                {
+                    try
+                    {
+                        await LostService.UpdateLostPerson(AutoMapper.Mapper.Map<ILostPerson>(personToUpdate));
+                        return RedirectToAction("Index");
+                    }
+                    catch (DataException /*x*/)
+                    {
+                        ModelState.AddModelError("", "Update failed");
+                    }
+                }
+                return View(personToUpdate);
             }
             catch (Exception ex)
             {
