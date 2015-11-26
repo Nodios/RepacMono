@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body ng-controller="lostPersonController">
+    <!--Tablica osoba-->
+    <table class="col-sm-10">
+        <thead>
+            <tr>
+                <th class="col-sm-1">#</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Location</th>
+                <th>Report date</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="person in vm.lostPersons">
+            <td>{{$index+1}}</td>
+            <td>{{person.firstName}}</td>
+            <td>{{person.lastName}}</td>
+            <td>{{person.location}}</td>
+            <td>{{person.reportDate}}</td>
+        </tr>
+    </table>
+
+</body>
+</html>
