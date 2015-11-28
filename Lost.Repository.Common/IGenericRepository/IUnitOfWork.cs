@@ -12,7 +12,7 @@ namespace Lost.Repository.Common
         Task<T> AddAsync<T>(T entity) where T : class;
         Task<T> Update<T>(T entity) where T : class;
         Task<int> DeleteAsync<T>(T entity) where T : class;
-        Task<int> DeleteAsync<T>(int id) where T : class;
+        Task<int> DeleteAsync<T>(Guid id) where T : class;
         Task<int> DeleteAsync<T>(Expression<Func<T, bool>> match) where T : class;
         Task<int> CommitAsync();
     }

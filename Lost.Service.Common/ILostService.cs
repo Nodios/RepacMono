@@ -10,7 +10,7 @@ namespace Lost.Service.Common
 {
     public interface ILostService
     {
-        Task<ILostPerson> FindByIdAsync(int id);
+        Task<ILostPerson> FindByIdAsync(Guid id);
         Task<IEnumerable<ILostPerson>> GetAllLostPersons();
         Task<int> ReportLostPerson(ILostPerson lp);
         Task<int> UpdateLostPerson(ILostPerson lp);

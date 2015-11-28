@@ -25,7 +25,7 @@ namespace Lost.Repository
         /// <summary>
         /// Get by id
         /// </summary>
-        public async Task<ILostPerson> GetAsync(int id)
+        public async Task<ILostPerson> GetAsync(Guid id)
         {
             try
             {
@@ -41,11 +41,11 @@ namespace Lost.Repository
         /// </summary>
         /// <param name="redCrossId"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<ILostPerson>> GetAllAsync(int redCrossId)
+        public async Task<IEnumerable<ILostPerson>> GetAllAsync(Guid redCrossId)
         {
             try
             {
-                return AutoMapper.Mapper.Map<IEnumerable<ILostPerson>>(await Repository.GetAllAsync<LostPersonEntity>(l => l.RedCrossId.Equals(redCrossId))); //Destination ILostPerson; Source: LostPersonEntity
+                return AutoMapper.Mapper.Map<IEnumerable<ILostPerson>>(await Repository.GetAllAsync<LostPersonEntity>(l => l.RedCrossEntityId.Equals(redCrossId))); //Destination ILostPerson; Source: LostPersonEntity
             }
             catch (Exception ex)
             {
@@ -114,12 +114,12 @@ namespace Lost.Repository
         /// params - optional parametar(id) that can be passed to the method or not
         /// </summary>
         /// <param name="id">param id</param>
-        public async Task<int> DeleteAsync(params int[] id)
+        public async Task<int> DeleteAsync(params Guid[] id)
         {
             try
             {
                 IUnitOfWork uow = Repository.CreateUnitOfWork();
-                foreach (int i in id)
+                foreach (Guid i in id)
                 {
                     await uow.DeleteAsync<LostPersonEntity>(i);
                 }

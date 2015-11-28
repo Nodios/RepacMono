@@ -8,7 +8,7 @@ namespace Lost.Model.Common
 {
     public interface IRedCross
     {
-        int RedCrossId { get; set; }
+        Guid RedCrossId { get; set; }
         string Name { get; set; }
         string City { get; set; }
         string Country { get; set; }

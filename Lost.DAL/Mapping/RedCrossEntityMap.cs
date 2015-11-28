@@ -1,6 +1,6 @@
+using Lost.DAL.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
-using Lost.DAL.Models;
 
 namespace Lost.DAL.Mapping
 {
@@ -9,16 +9,13 @@ namespace Lost.DAL.Mapping
         public RedCrossEntityMap()
         {
             // Primary Key
-            this.HasKey(t => t.RedCrossId);
+            Property(t => t.RedCrossEntityId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             // Properties
-            // Table & Column Mappings
-            this.ToTable("RedCrossEntity");
-            this.Property(t => t.RedCrossId).HasColumnName("RedCrossId");
-            this.Property(t => t.Name).HasColumnName("Name");
-            this.Property(t => t.City).HasColumnName("City");
-            this.Property(t => t.Country).HasColumnName("Country");
-            this.Property(t => t.PersonInCharge).HasColumnName("PersonInCharge");
+            Property(t => t.Name).IsRequired().HasMaxLength(60);
+            Property(t => t.City).IsRequired().HasMaxLength(30);
+            Property(t => t.Country).IsRequired().HasMaxLength(20);
+            Property(t => t.PersonInCharge).IsRequired().HasMaxLength(70);
         }
     }
 }

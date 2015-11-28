@@ -38,6 +38,31 @@ namespace Lost.UI.Controllers
                 throw ex;
             }
         }
+        public ActionResult ReportMissing()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ReportMissing(LostPersonModel lpm)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    int ret = await LostService.ReportLostPerson(AutoMapper.Mapper.Map<ILostPerson>(lpm));
+                    return RedirectToAction("Index");
+                }
+
+                return View(lpm);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
     }
 }

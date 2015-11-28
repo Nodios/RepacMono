@@ -35,7 +35,7 @@ namespace Lost.Repository
         /// <typeparam name="T">entity type</typeparam>
         /// <param name="id">entity id</param>
         /// <returns>entity or null</returns>
-        public Task<T> GetAsync<T>(int id) where T : class
+        public Task<T> GetAsync<T>(Guid id) where T : class
         {
             return Context.Set<T>().FindAsync(id);
         }
@@ -124,7 +124,7 @@ namespace Lost.Repository
         /// <summary>
         /// Deletes entity
         /// </summary>
-        public async Task<int> DeleteAsync<T>(int id) where T : class
+        public async Task<int> DeleteAsync<T>(Guid id) where T : class
         {
             T entity = await GetAsync<T>(id); //dohvati entity sa id
             if (entity == null) throw new ArgumentNullException("entity is null, does not exist");

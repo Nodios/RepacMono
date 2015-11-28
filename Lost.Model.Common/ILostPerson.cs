@@ -8,7 +8,7 @@ namespace Lost.Model.Common
 {
     public interface ILostPerson
     {
-        int Id { get; set; }
+        Guid Id { get; set; }
         string FirstName { get; set; }
         string LastName { get; set; }
         DateTime Birthday { get; set; }
@@ -22,7 +22,7 @@ namespace Lost.Model.Common
         bool IsFound { get; set; }
 
         //FK
-        int RedCrossId { get; set; }
+        Guid RedCrossId { get; set; }
 
         //Navigation
         IRedCross RedCross { get; set; }

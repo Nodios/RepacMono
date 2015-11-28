@@ -10,12 +10,12 @@ namespace Lost.Repository.Common
 {
     public interface IRedRepository
     {
-        Task<IRedCross> GetAsync(int id);
+        Task<IRedCross> GetAsync(Guid id);
         Task<IEnumerable<IRedCross>> GetAsync();
 
         Task<int> AddAsync(IRedCross rc);
         Task<int> UpdateAsync(IRedCross rc);
         Task<int> DeleteAsync(IRedCross rc);
-        Task<int> DeleteAsync(int id);
+        Task<int> DeleteAsync(Guid id);
     }
 }

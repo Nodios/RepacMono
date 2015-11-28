@@ -75,7 +75,7 @@ namespace Lost.Repository
             }
         }
 
-        public Task<int> DeleteAsync<T>(int id) where T : class
+        public Task<int> DeleteAsync<T>(Guid id) where T : class
         {
             try
             {

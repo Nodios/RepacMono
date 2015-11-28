@@ -1,11 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
-namespace Lost.DAL.Models
+namespace Lost.UI.Models
 {
-    public partial class RedCrossEntity
+    public class RedCrossModel
     {
-        public Guid RedCrossEntityId { get; set; }
+        public Guid RedCrossModelId { get; set; }
 
         public string Name { get; set; }
         public string City { get; set; }
@@ -13,6 +15,7 @@ namespace Lost.DAL.Models
         public string PersonInCharge { get; set; }
 
         //one to many, one RC can have many reported persons
-        public virtual ICollection<LostPersonEntity> LostPersonEntities { get; set; }
+        public virtual ICollection<LostPersonModel> LostPersonModel { get; set; }
     }
+    
 }

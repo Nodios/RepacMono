@@ -20,7 +20,7 @@ namespace Lost.Repository
             this.Repository = repository;
         }
 
-        public async Task<IRedCross> GetAsync(int id)
+        public async Task<IRedCross> GetAsync(Guid id)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace Lost.Repository
         /// <summary>
         /// Delete by id
         /// </summary>
-        public async Task<int> DeleteAsync(int id)
+        public async Task<int> DeleteAsync(Guid id)
         {
             try
             {

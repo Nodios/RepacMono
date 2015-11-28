@@ -21,7 +21,7 @@ namespace Lost.Service
             if (lostRepository == null) throw new ArgumentNullException("lostRepository is null. Must be ILostRepository");
         }
 
-        public Task<ILostPerson> FindByIdAsync(int id)
+        public Task<ILostPerson> FindByIdAsync(Guid id)
         {
             return lostRepository.GetAsync(id);
         }

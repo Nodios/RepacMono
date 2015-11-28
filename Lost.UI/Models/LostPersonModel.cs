@@ -1,10 +1,12 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
 
-namespace Lost.DAL.Models
+namespace Lost.UI.Models
 {
-    public partial class LostPersonEntity
+    public class LostPersonModel
     {
         public Guid Id { get; set; }
 
@@ -27,6 +29,6 @@ namespace Lost.DAL.Models
         public Guid RedCrossEntityId { get; set; }
 
         //one to one, one missing person can be reported in only one Red cross
-        public virtual RedCrossEntity RedCrossEntity { get; set; }
+        public virtual RedCrossModel RedCrossModel{ get; set; }
     }
 }

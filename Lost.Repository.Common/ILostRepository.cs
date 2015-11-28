@@ -11,13 +11,13 @@ namespace Lost.Repository.Common
 {
     public interface ILostRepository
     {
-        Task<ILostPerson> GetAsync(int id);
-        Task<IEnumerable<ILostPerson>> GetAllAsync(int redCrossId);
+        Task<ILostPerson> GetAsync(Guid id);
+        Task<IEnumerable<ILostPerson>> GetAllAsync(Guid redCrossId);
         Task<IEnumerable<ILostPerson>> GetEveryoneAsync();
 
         Task<int> AddAsync(ILostPerson lp);
         Task<int> UpdateAsync(ILostPerson lp);
         Task<int> DeleteAsync(ILostPerson lp);
-        Task<int> DeleteAsync(params int[] id);
+        Task<int> DeleteAsync(params Guid[] id);
     }
 }

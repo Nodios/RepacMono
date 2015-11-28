@@ -9,29 +9,23 @@ namespace Lost.DAL.Mapping
         public LostPersonEntityMap()
         {
             // Primary Key
-            this.HasKey(t => t.Id);
+            Property(t => t.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             // Properties
-            // Table & Column Mappings
-            this.ToTable("LostPersonEntity");
-            this.Property(t => t.Id).HasColumnName("Id");
-            this.Property(t => t.FirstName).HasColumnName("FirstName");
-            this.Property(t => t.LastName).HasColumnName("LastName");
-            this.Property(t => t.Birthday).HasColumnName("Birthday");
-            this.Property(t => t.City).HasColumnName("City");
-            this.Property(t => t.Country).HasColumnName("Country");
-            this.Property(t => t.DateLastSeen).HasColumnName("DateLastSeen");
-            this.Property(t => t.LocationLastSeen).HasColumnName("LocationLastSeen");
-            this.Property(t => t.ReporterName).HasColumnName("ReporterName");
-            this.Property(t => t.ReportDate).HasColumnName("ReportDate");
-            this.Property(t => t.Location).HasColumnName("Location");
-            this.Property(t => t.IsFound).HasColumnName("IsFound");
-            this.Property(t => t.RedCrossId).HasColumnName("RedCrossId");
+            Property(t => t.FirstName).IsRequired().HasMaxLength(50);
+            Property(t => t.LastName).IsRequired().HasMaxLength(50);
+            Property(t => t.Birthday).HasColumnType("datetime2");
+            Property(t => t.City).IsRequired().HasMaxLength(50);
+            Property(t => t.Country).IsRequired().HasMaxLength(50);
+            Property(t => t.DateLastSeen).HasColumnType("datetime2");
+            Property(t => t.LocationLastSeen).IsRequired().HasMaxLength(50);
+            Property(t => t.ReporterName).IsRequired().HasMaxLength(70);
+            Property(t => t.ReportDate).HasColumnType("datetime2");
+            Property(t => t.Location).IsRequired().HasMaxLength(50);
+            Property(t => t.IsFound).IsRequired();
 
             // Relationships
-            this.HasRequired(t => t.RedCrossEntity)
-                .WithMany(t => t.LostPersonEntities)
-                .HasForeignKey(d => d.RedCrossId);
+            HasRequired(t => t.RedCrossEntity).WithMany(t => t.LostPersonEntities).HasForeignKey(d => d.RedCrossEntityId);
 
         }
     }

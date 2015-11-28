@@ -6,7 +6,7 @@ namespace Lost.Model
 {
     public class RedCross : IRedCross
     {
-        public int RedCrossId { get; set; }
+        public Guid RedCrossId { get; set; }
         public string Name { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
