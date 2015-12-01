@@ -11,6 +11,7 @@ using System.Data;
 using PagedList;
 using System.Threading.Tasks;
 using Lost.UI.Models;
+using Lost.Common;
 
 namespace Lost.UI.Controllers
 {
@@ -26,12 +27,28 @@ namespace Lost.UI.Controllers
         #endregion
 
         #region methods
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? page/*, Guid redCrossId*/)
         {
+            //Variables
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
             try
             {
+                //if(redCrossId != null)
+                //{
+                //    var lostPersons = await LostService.GetFromRedCross(redCrossId);
+                //    return View(lostPersons.ToPagedList(pageNumber, pageSize));
+                //}
+                //else
+                //{
+                //    var lostPersons = await LostService.GetAllLostPersons();
+                //    return View(lostPersons.ToPagedList(pageNumber, pageSize));
+                //}
+
+
                 var lostPersons = await LostService.GetAllLostPersons();
-                return View(lostPersons);
+                return View(lostPersons.ToPagedList(pageNumber, pageSize));
             }
             catch (Exception ex)
             {

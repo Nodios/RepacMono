@@ -1,4 +1,5 @@
-﻿using Lost.DAL;
+﻿using Lost.Common;
+using Lost.DAL;
 using Lost.Model;
 using Lost.Model.Common;
 using Lost.Repository.Common;
@@ -26,11 +27,17 @@ namespace Lost.Service
             return lostRepository.GetAsync(id);
         }
 
-        public Task<IEnumerable<ILostPerson>> GetAllLostPersons()
+        public Task<IEnumerable<ILostPerson>> GetAllLostPersons(/*Paging paging*/)
         {
-            return lostRepository.GetEveryoneAsync();
+            return lostRepository.GetEveryoneAsync(/*paging*/);
         }
 
+        public Task<IEnumerable<ILostPerson>> GetFromRedCross(Guid id/*, Paging paging*/)
+        {
+            return lostRepository.GetAllAsync(id/*, paging*/);
+        }
+
+        #region CRUD
         public Task<int> ReportLostPerson(ILostPerson lp)
         {
             return lostRepository.AddAsync(lp);
@@ -41,9 +48,10 @@ namespace Lost.Service
             return lostRepository.UpdateAsync(lp);
         }
 
-        public Task<int> DeleteMissingPerson(ILostPerson lp)
+        public Task<int> DeleteMissingPerson(Guid id)
         {
-            return lostRepository.DeleteAsync(lp);
+            return lostRepository.DeleteAsync(id);
         }
+        #endregion
     }
 }

@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Lost.Model.Common.ILostPerson>
+﻿<!--model IEnumerable<Lost.Model.Common.ILostPerson>-->
+@model PagedList.IPagedList<Lost.Model.Common.ILostPerson>
+@using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
@@ -8,12 +10,12 @@
 <h2>Missing persons</h2>
 
 <p>
-    @Html.ActionLink("Report Missing Person", "ReportMissing", "LostController")
+    @Html.ActionLink("Report Missing Person", "ReportMissing", "Lost")
 </p>
 @using (Html.BeginForm("Index", "Lost", FormMethod.Get))
 {
     <p>
-        Find by location: @Html.TextBox("LocationString", ViewBag.CurrentFilter as string)
+        Find from Red Cross:
         <input type="submit" value="Search" />
     </p>
 }
@@ -39,7 +41,7 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
+                @Html.DisplayFor(model => item.FirstName)
             </td>
             <td>
                 @Html.DisplayFor(model => item.LastName)
@@ -63,3 +65,5 @@
     }
 </table>
 <br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }));

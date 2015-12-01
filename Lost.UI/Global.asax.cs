@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Lost.Repository;
+using Lost.UI.App_Start;
 
 namespace Lost.UI
 {
@@ -17,7 +18,13 @@ namespace Lost.UI
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AutoMapperConfiguration.Configure();
+            
+            //AutoMapperConfiguration.Configure();
+            AutoMapper.Mapper.Initialize(c =>
+            {
+                c.AddProfile<AutoMapperConfiguration>();
+                c.AddProfile<AutoMapperMVCMapping>();
+            });
         }
     }
 }

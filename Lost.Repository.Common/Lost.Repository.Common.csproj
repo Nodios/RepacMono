@@ -47,6 +47,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lost.Common\Lost.Common.csproj">
+      <Project>{a73f854a-bb43-4a70-be34-d11d2cf9f96f}</Project>
+      <Name>Lost.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lost.DAL\Lost.DAL.csproj">
       <Project>{ef5db563-5be1-4424-af14-33d7449ea3c4}</Project>
       <Name>Lost.DAL</Name>

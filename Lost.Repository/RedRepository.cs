@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Lost.DAL;
 using Lost.DAL.Models;
-using Lost.Repository.Common;
-using Lost.Model.Common;
 using Lost.Model;
+using Lost.Model.Common;
+using Lost.Repository.Common;
+using System.Data.Entity;
+using System.Data.Entity.Validation;
+using System.Threading.Tasks;
+using System.Linq.Expressions;
+using Lost.Common;
 
 namespace Lost.Repository
 {
@@ -19,7 +22,11 @@ namespace Lost.Repository
         {
             this.Repository = repository;
         }
-
+        /// <summary>
+        /// Find by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IRedCross> GetAsync(Guid id)
         {
             try
@@ -31,12 +38,27 @@ namespace Lost.Repository
                 throw ex;
             }
         }
-
-        public async Task<IEnumerable<IRedCross>> GetAsync()
+        /// <summary>
+        /// Get all
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<IRedCross>> GetAsync(/*Paging paging*/)
         {
+            
             try
             {
-                return AutoMapper.Mapper.Map<IEnumerable<IRedCross>>(await Repository.GetEverything<RedCrossEntity>());
+                return AutoMapper.Mapper.Map<IEnumerable<IRedCross>>(await Repository.GetEverything<RedCrossEntity>()).OrderBy(r => r.Name);
+                //if (paging == null)
+                //{
+                //    return AutoMapper.Mapper.Map<IEnumerable<IRedCross>>(await Repository.GetEverything<RedCrossEntity>());
+                //}
+                //else
+                //{
+                //    return AutoMapper.Mapper.Map<IEnumerable<IRedCross>>(await Repository.Where<RedCrossEntity>()
+                //        .OrderBy(r => r.Name)
+                //        .Skip((paging.PageNumber * paging.PageSize) - paging.PageSize)
+                //        .Take(paging.PageSize).ToListAsync());
+                //}
             }
             catch (Exception ex)
             {

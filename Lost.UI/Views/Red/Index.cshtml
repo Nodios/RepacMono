@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<Lost.DAL.RedCrossEntity>
+﻿@model PagedList.IPagedList<Lost.Model.Common.IRedCross>
 @using PagedList.Mvc
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
@@ -18,10 +18,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+            Name
         </th>
         <th>
-            @Html.ActionLink("City", "Index", new { sortOrder = ViewBag.CityNameParm, currentFilter = ViewBag.CurrentFilter })
+            City
         </th>
         <th>
             Country
@@ -46,11 +46,11 @@
         <td>
             @Html.DisplayFor(modelItem => item.PersonInCharge)
         </td>
-        <!--<td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+        <td>
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>-->
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+        </td>
     </tr>
 }
 
@@ -58,4 +58,4 @@
 <br />
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

@@ -10,6 +10,7 @@ using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
+using Lost.Common;
 
 namespace Lost.Repository
 {
@@ -41,11 +42,24 @@ namespace Lost.Repository
         /// </summary>
         /// <param name="redCrossId"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<ILostPerson>> GetAllAsync(Guid redCrossId)
+        public async Task<IEnumerable<ILostPerson>> GetAllAsync(Guid redCrossId/*, Paging paging = null*/)
         {
             try
             {
-                return AutoMapper.Mapper.Map<IEnumerable<ILostPerson>>(await Repository.GetAllAsync<LostPersonEntity>(l => l.RedCrossEntityId.Equals(redCrossId))); //Destination ILostPerson; Source: LostPersonEntity
+                return AutoMapper.Mapper.Map<IEnumerable<ILostPerson>>(await Repository.GetAllAsync<LostPersonEntity>(l => l.RedCrossEntityId.Equals(redCrossId))).OrderBy(l => l.LastName); //Destination ILostPerson; Source: LostPersonEntity
+
+                //if (paging == null)
+                //{
+                //    return AutoMapper.Mapper.Map<IEnumerable<ILostPerson>>(await Repository.GetAllAsync<LostPersonEntity>(l => l.RedCrossEntityId.Equals(redCrossId))).OrderBy(l => l.LastName); //Destination ILostPerson; Source: LostPersonEntity
+                //}
+                //else
+                //{
+                //    return AutoMapper.Mapper.Map<IEnumerable<ILostPerson>>(await Repository.Where<LostPersonEntity>()
+                //        .Where(l => l.RedCrossEntityId.Equals(redCrossId))              //Daj samo one koji su prijavljeni u Crvenom krizu sa Id = redCrossId
+                //        .OrderBy(l=>l.LastName)                                         //Poredaj po prezimenu
+                //        .Skip((paging.PageNumber * paging.PageSize)-paging.PageSize)    //Preskoci prvih PageNumber*PageSize-PageSize elemenata
+                //        .Take(paging.PageSize).ToListAsync());                          //Uzmi prvih PageSize elemenata
+                //}
             }
             catch (Exception ex)
             {
@@ -56,17 +70,30 @@ namespace Lost.Repository
         /// Get all lost persons
         /// </summary>
         /// <returns>List of lost persons</returns>
-        public async Task<IEnumerable<ILostPerson>> GetEveryoneAsync()
+        public async Task<IEnumerable<ILostPerson>> GetEveryoneAsync(/*Paging paging*/)
         {
             try
             {
-                return AutoMapper.Mapper.Map<IEnumerable<ILostPerson>>(await Repository.GetEverything<LostPersonEntity>()); //Destination ILostPerson; Source: LostPersonEntity
+                return AutoMapper.Mapper.Map<IEnumerable<ILostPerson>>(await Repository.GetEverything<LostPersonEntity>()).OrderBy(l => l.LastName); //Destination ILostPerson; Source: LostPersonEntity
+
+                //if (paging == null)
+                //{
+                //    return AutoMapper.Mapper.Map<IEnumerable<ILostPerson>>(await Repository.GetEverything<LostPersonEntity>()).OrderBy(l => l.LastName); //Destination ILostPerson; Source: LostPersonEntity
+                //}
+                //else
+                //{
+                //    return AutoMapper.Mapper.Map<IEnumerable<ILostPerson>>(await Repository.Where<LostPersonEntity>()
+                //        .OrderBy(l => l.LastName)                                         //Poredaj po prezimenu
+                //        .Skip((paging.PageNumber * paging.PageSize) - paging.PageSize)    //Preskoci prvih PageNumber*PageSize-PageSize elemenata
+                //        .Take(paging.PageSize).ToListAsync());                            //Uzmi prvih PageSize elemenata
+                //}
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
+
         #region A/U/D
         /// <summary>
         /// Add lost person
