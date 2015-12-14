@@ -5,7 +5,7 @@ namespace Lost.DAL.Models
 {
     public partial class RedCrossEntity
     {
-        public Guid RedCrossEntityId { get; set; }
+        public Guid RedCrossId { get; set; }
 
         public string Name { get; set; }
         public string City { get; set; }

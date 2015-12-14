@@ -45,8 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ILostInterceptor.cs" />
-    <Compile Include="Paging.cs" />
+    <Compile Include="Filters\IFilter.cs" />
+    <Compile Include="Filters\LostPersonFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

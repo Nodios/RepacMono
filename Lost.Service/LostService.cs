@@ -1,4 +1,4 @@
-﻿using Lost.Common;
+﻿using Lost.Common.Filters;
 using Lost.DAL;
 using Lost.Model;
 using Lost.Model.Common;
@@ -14,7 +14,7 @@ namespace Lost.Service
 {
     public class LostService : ILostService
     {
-        private readonly ILostRepository lostRepository;
+        protected ILostRepository lostRepository { get; private set; }
 
         public LostService(ILostRepository lostRepository)
         {
@@ -27,20 +27,34 @@ namespace Lost.Service
             return lostRepository.GetAsync(id);
         }
 
-        public Task<IEnumerable<ILostPerson>> GetAllLostPersons(/*Paging paging*/)
+        public virtual Task<IEnumerable<ILostPerson>> GetAllLostPersons(LostPersonFilter filter)
         {
-            return lostRepository.GetEveryoneAsync(/*paging*/);
+            try
+            {
+                return lostRepository.GetEveryoneAsync(filter);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public Task<IEnumerable<ILostPerson>> GetFromRedCross(Guid id/*, Paging paging*/)
+        public Task<IEnumerable<ILostPerson>> GetFromRedCross(Guid id, LostPersonFilter filter)
         {
-            return lostRepository.GetAllAsync(id/*, paging*/);
+            return lostRepository.GetAllAsync(id);
         }
 
-        #region CRUD
+        #region C-UD
         public Task<int> ReportLostPerson(ILostPerson lp)
         {
-            return lostRepository.AddAsync(lp);
+            try
+            {
+                return lostRepository.AddAsync(lp);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public Task<int> UpdateLostPerson(ILostPerson lp)

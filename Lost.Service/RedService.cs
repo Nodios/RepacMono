@@ -25,9 +25,9 @@ namespace Lost.Service
             return Repository.GetAsync(id);
         }
 
-        public Task<IEnumerable<IRedCross>> GetAllAsync(/*Lost.Common.Paging paging*/)
+        public Task<IEnumerable<IRedCross>> GetAllAsync()
         {
-            return Repository.GetAsync(/*paging*/);
+            return Repository.GetAsync();
         }
 
         public Task<int> AddAsync(IRedCross rc)

@@ -15,8 +15,8 @@
 @using (Html.BeginForm("Index", "Lost", FormMethod.Get))
 {
     <p>
-        Find from Red Cross:
-        <input type="submit" value="Search" />
+        <span class="glyphicon-search">@Html.TextBox("searchString", null, new { @class = "form-control", placeholder="Pretrazi po nazivu" })</span>
+        <input type="submit" value="Search" class="btn btn-default" />
     </p>
 }
 <table class="table">

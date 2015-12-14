@@ -9,9 +9,10 @@ namespace Lost.DAL.Mapping
         public RedCrossEntityMap()
         {
             // Primary Key
-            Property(t => t.RedCrossEntityId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            this.HasKey(t => t.RedCrossId);            
 
             // Properties
+            Property(t => t.RedCrossId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(t => t.Name).IsRequired().HasMaxLength(60);
             Property(t => t.City).IsRequired().HasMaxLength(30);
             Property(t => t.Country).IsRequired().HasMaxLength(20);

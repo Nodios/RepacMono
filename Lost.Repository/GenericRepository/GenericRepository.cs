@@ -30,7 +30,7 @@ namespace Lost.Repository
             return UoWFac.CreateUnitOfWork();
         }
         /// <summary>
-        /// Fetch single entity
+        /// Get by id
         /// </summary>
         /// <typeparam name="T">entity type</typeparam>
         /// <param name="id">entity id</param>
@@ -83,13 +83,29 @@ namespace Lost.Repository
         {
             try
             {
-                Context.Set<T>().Add(entity);
+                DbEntityEntry entry = Context.Entry(entity);
+                if (entry.State != EntityState.Detached)
+                    entry.State = EntityState.Added;
+                else
+                    Context.Set<T>().Add(entity);
                 return await Context.SaveChangesAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
+
+
+
+            //try
+            //{
+            //    Context.Set<T>().Add(entity);
+            //    return await Context.SaveChangesAsync();
+            //}
+            //catch(Exception ex)
+            //{
+            //    throw ex;
+            //}
         }
 
         public async Task<int> UpdateAsync<T>(T entity) where T : class

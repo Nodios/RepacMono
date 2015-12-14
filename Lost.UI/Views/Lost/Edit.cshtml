@@ -1,4 +1,4 @@
-﻿@model Lost.DAL.LostPersonEntity
+﻿@model Lost.UI.Models.LostPersonModel
 
 @{
     ViewBag.Title = "Edit";
@@ -108,10 +108,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.RedCrossId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.RedCrossEntityId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.RedCrossId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RedCrossId, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.RedCrossEntityId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RedCrossEntityId, "", new { @class = "text-danger" })
             </div>
         </div>
 

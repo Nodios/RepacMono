@@ -8,10 +8,11 @@ namespace Lost.DAL.Mapping
     {
         public LostPersonEntityMap()
         {
-            // Primary Key
-            Property(t => t.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            //Primary key
+            this.HasKey(t => t.Id);
 
             // Properties
+            Property(t => t.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(t => t.FirstName).IsRequired().HasMaxLength(50);
             Property(t => t.LastName).IsRequired().HasMaxLength(50);
             Property(t => t.Birthday).HasColumnType("datetime2");

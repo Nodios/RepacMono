@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lost.Model.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,9 +8,9 @@ namespace Lost.UI.Models
 {
     public class RcViewModel
     {
-        public IEnumerable<RedCrossModel> RedCross { get; private set; }
+        public IEnumerable<IRedCross> RedCross { get; private set; }
 
-        public RcViewModel(IEnumerable<RedCrossModel> redCross)
+        public RcViewModel(IEnumerable<IRedCross> redCross)
         {
             RedCross = redCross;
         }

@@ -42,23 +42,13 @@ namespace Lost.Repository
         /// Get all
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<IRedCross>> GetAsync(/*Paging paging*/)
+        public async Task<IEnumerable<IRedCross>> GetAsync()
         {
             
             try
             {
                 return AutoMapper.Mapper.Map<IEnumerable<IRedCross>>(await Repository.GetEverything<RedCrossEntity>()).OrderBy(r => r.Name);
-                //if (paging == null)
-                //{
-                //    return AutoMapper.Mapper.Map<IEnumerable<IRedCross>>(await Repository.GetEverything<RedCrossEntity>());
-                //}
-                //else
-                //{
-                //    return AutoMapper.Mapper.Map<IEnumerable<IRedCross>>(await Repository.Where<RedCrossEntity>()
-                //        .OrderBy(r => r.Name)
-                //        .Skip((paging.PageNumber * paging.PageSize) - paging.PageSize)
-                //        .Take(paging.PageSize).ToListAsync());
-                //}
+
             }
             catch (Exception ex)
             {
