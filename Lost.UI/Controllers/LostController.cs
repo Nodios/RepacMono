@@ -81,63 +81,60 @@ namespace Lost.UI.Controllers
                 throw ex;
             }
         }
-
         public async Task<ActionResult> Edit(Guid id)
         {
-            try
-            {
-                if (id == null)
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-                ILostPerson lp = await LostService.FindByIdAsync(id);
-                if (lp == null)
-                    return HttpNotFound();
+            ViewBag.RedCross = await RedService.GetAllAsync();
 
-                return View(lp);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            ILostPerson lostPerson = await LostService.FindByIdAsync(id);
+            if (lostPerson == null)
+                return HttpNotFound();
+
+            return View(lostPerson);
         }
-
-        [HttpPost, ActionName("Edit")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditPost(Guid id, LostPersonModel model)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,FirstName,LastName,Birthday,City,Country,DateLastSeen,LocationLastSeen,ReporterName,ReportDate,Location,IsFound,RedCrossId")] LostPersonModel lpm)
         {
             try
             {
-                if (id == null)
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                ViewBag.RedCross = await RedService.GetAllAsync();
 
-                int ret = await LostService.UpdateLostPerson(AutoMapper.Mapper.Map<ILostPerson>(model));
+                if (ModelState.IsValid)
+                {
+                    await LostService.UpdateLostPerson(AutoMapper.Mapper.Map<LostPerson>(lpm));
+                    return RedirectToAction("Index");
+                }
 
-                if (ret >= 1)
-                    return View(ret);
-                else
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-                //ILostPerson personToUpdate = await LostService.FindByIdAsync(id);
-                //if (TryUpdateModel(personToUpdate))
-                //{
-                //    try
-                //    {
-                //        await LostService.UpdateLostPerson(AutoMapper.Mapper.Map<ILostPerson>(personToUpdate));
-                //        return RedirectToAction("Index");
-                //    }
-                //    catch (DataException e)
-                //    {
-                //        ModelState.AddModelError("GRESKA!", e);
-                //    }
-                //}
-                //return View(personToUpdate);
-
+                return View();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        #endregion
+
+        public async Task<ActionResult> Delete(Guid id) //must be nullable
+        {
+            //if (id == null)
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var lostPersonToDelete = await LostService.FindByIdAsync(id);
+            if (lostPersonToDelete == null)
+                return HttpNotFound();
+
+            return View(lostPersonToDelete);
+        }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeletePost(Guid id)
+        {
+            await LostService.DeleteMissingPerson(id);
+            return RedirectToAction("Index");
+        }
+
     }
+        #endregion
 }
