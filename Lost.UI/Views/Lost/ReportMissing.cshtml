@@ -6,7 +6,7 @@
 <h2>Report Missing</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("ReportMissing", "Lost")) 
 {
     @Html.AntiForgeryToken()
     
@@ -93,17 +93,26 @@
                 @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsFound, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.IsFound)
+                    @Html.ValidationMessageFor(model => model.IsFound, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
         <!--DROPDOWNLISTFOR za dohvacanje RC-ova iz baze-->
         <div class="form-group">
             @Html.LabelFor(model => model.RedCrossId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("RedCross", null, htmlAttributes: new { @class="form-control" })
+                @Html.DropDownListFor(model => model.RedCrossId, new SelectList(ViewBag.RedCross, "RedCrossId", "Name"), "Select RC")
                 @Html.ValidationMessageFor(model => model.RedCrossId, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Report" class="btn btn-default" />
             </div>
         </div>
     </div>

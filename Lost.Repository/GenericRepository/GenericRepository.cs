@@ -94,18 +94,6 @@ namespace Lost.Repository
             {
                 throw ex;
             }
-
-
-
-            //try
-            //{
-            //    Context.Set<T>().Add(entity);
-            //    return await Context.SaveChangesAsync();
-            //}
-            //catch(Exception ex)
-            //{
-            //    throw ex;
-            //}
         }
 
         public async Task<int> UpdateAsync<T>(T entity) where T : class

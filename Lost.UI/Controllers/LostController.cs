@@ -1,5 +1,6 @@
 ﻿using Lost.Common;
 using Lost.DAL;
+using Lost.Model;
 using Lost.Model.Common;
 using Lost.Service.Common;
 using Lost.UI.Models;
@@ -17,10 +18,11 @@ namespace Lost.UI.Controllers
 {
     public class LostController : Controller
     {
-        #region Constructor
+        
         protected ILostService LostService { get; private set; }
         protected IRedService RedService { get; private set; }
 
+        #region Constructor
         public LostController(ILostService lostService, IRedService redService)
         {
             LostService = lostService;
@@ -34,22 +36,27 @@ namespace Lost.UI.Controllers
             var lp = await LostService.GetAllLostPersons(new Common.Filters.LostPersonFilter(searchString, pageNumber, pageSize));
             return View(lp);
         }
+
+
         public async Task<ActionResult> ReportMissing()
         {
-            ViewBag.RedCross = new SelectList(await RedService.GetAllAsync(), "RedCrossId", "Name");
+            ViewBag.RedCross = await RedService.GetAllAsync();
+
             return View();
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ReportMissing([Bind(Include="FirstName,LastName,Birthday,City,Country,DateLastSeen,LocationLastSeen,ReporterName,ReportDate,Location,IsFound,RedCrossId")] LostPersonModel lpm)
+        public async Task<ActionResult> ReportMissing([Bind(Include="Id,FirstName,LastName,Birthday,City,Country,DateLastSeen,LocationLastSeen,ReporterName,ReportDate,Location,IsFound,RedCrossId")] LostPersonModel lpm)
         {
             if (ModelState.IsValid)
             {
-                await LostService.ReportLostPerson(AutoMapper.Mapper.Map<ILostPerson>(lpm));
+
+                await LostService.ReportLostPerson(AutoMapper.Mapper.Map<LostPerson>(lpm));
+                
                 return RedirectToAction("Index");
             }
-            ViewBag.RedCross = new SelectList(await RedService.GetAllAsync(), "RedCrossId", "Name");
+            ViewBag.RedCross = await RedService.GetAllAsync();
+
             return View(lpm);
         }
 

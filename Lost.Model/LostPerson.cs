@@ -35,6 +35,6 @@ namespace Lost.Model
         public Guid RedCrossId { get; set; }
         
         //Navigation: one to one
-        public IRedCross RedCross { get; set; }
+        public virtual IRedCross RedCross { get; set; }
     }
 }

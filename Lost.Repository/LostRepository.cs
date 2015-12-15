@@ -62,7 +62,7 @@ namespace Lost.Repository
                 }
                 else
                 {
-                    return AutoMapper.Mapper.Map<IEnumerable<ILostPerson>>(await Repository.GetAllAsync<LostPersonEntity>(l => l.RedCrossEntityId.Equals(redCrossId))).OrderBy(l => l.ReportDate).ToList();
+                    return AutoMapper.Mapper.Map<IEnumerable<ILostPerson>>(await Repository.GetAllAsync<LostPersonEntity>(l => l.RedCrossId.Equals(redCrossId))).OrderBy(l => l.ReportDate).ToList();
                 }
 
                 //return AutoMapper.Mapper.Map<IEnumerable<ILostPerson>>(await Repository.GetAllAsync<LostPersonEntity>(l => l.RedCrossEntityId.Equals(redCrossId))).OrderBy(l => l.LastName); //Destination ILostPerson; Source: LostPersonEntity

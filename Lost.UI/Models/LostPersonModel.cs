@@ -26,9 +26,9 @@ namespace Lost.UI.Models
         public string Location { get; set; }
         public bool IsFound { get; set; }
 
-        public Guid RedCrossEntityId { get; set; }
+        public Guid RedCrossId { get; set; }
 
         //one to one, one missing person can be reported in only one Red cross
-        public virtual RedCrossModel RedCrossModel{ get; set; }
+        public virtual RedCrossModel RedCrossModel { get; set; }
     }
 }

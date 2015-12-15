@@ -13,6 +13,6 @@ namespace Lost.Model
         public string PersonInCharge { get; set; }
 
         //Navigation one to many
-        public ICollection<ILostPerson> LostPersons { get; set; }
+        public virtual ICollection<ILostPerson> LostPersons { get; set; }
     }
 }

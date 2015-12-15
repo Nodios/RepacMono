@@ -23,10 +23,10 @@ namespace Lost.DAL.Mapping
             Property(t => t.ReporterName).IsRequired().HasMaxLength(70);
             Property(t => t.ReportDate).HasColumnType("datetime2");
             Property(t => t.Location).IsRequired().HasMaxLength(50);
-            Property(t => t.IsFound).IsRequired();
+            Property(t => t.IsFound);
 
             // Relationships
-            HasRequired(t => t.RedCrossEntity).WithMany(t => t.LostPersonEntities).HasForeignKey(d => d.RedCrossEntityId);
+            HasRequired(t => t.RedCrossEntity).WithMany(t => t.LostPersonEntities).HasForeignKey(d => d.RedCrossId);
 
         }
     }

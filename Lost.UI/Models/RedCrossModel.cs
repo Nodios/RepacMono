@@ -7,7 +7,7 @@ namespace Lost.UI.Models
 {
     public class RedCrossModel
     {
-        public Guid RedCrossModelId { get; set; }
+        public Guid RedCrossId { get; set; }
 
         public string Name { get; set; }
         public string City { get; set; }
@@ -15,7 +15,7 @@ namespace Lost.UI.Models
         public string PersonInCharge { get; set; }
 
         //one to many, one RC can have many reported persons
-        public virtual ICollection<LostPersonModel> LostPersonModel { get; set; }
+        public virtual ICollection<LostPersonModel> LostPersonModels { get; set; }
     }
     
 }
