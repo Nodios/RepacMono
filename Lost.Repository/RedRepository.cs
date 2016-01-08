@@ -11,6 +11,8 @@ using System.Data.Entity.Validation;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
 using Lost.Common;
+using Lost.Common.Filters;
+using PagedList;
 
 namespace Lost.Repository
 {
@@ -42,13 +44,31 @@ namespace Lost.Repository
         /// Get all
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<IRedCross>> GetAsync()
+        public async Task<IEnumerable<IRedCross>> GetAsync(GenericFilter filter)
         {
             
             try
             {
-                return AutoMapper.Mapper.Map<IEnumerable<IRedCross>>(await Repository.GetEverything<RedCrossEntity>()).OrderBy(r => r.Name);
+                if (filter != null)
+                {
+                    var rc = AutoMapper.Mapper.Map<IEnumerable<IRedCross>>(await Repository.GetEverything<RedCrossEntity>()).OrderBy(r => r.Name).ToList();
 
+                    if (!string.IsNullOrWhiteSpace(filter.searchString))
+                    {
+                        rc = rc.Where(r =>
+                            r.Name.ToLower().Contains(filter.searchString.ToLower()) ||
+                            r.Country.ToLower().Contains(filter.searchString.ToLower())
+                        ).ToList();
+                    }
+
+                    var page = rc.ToPagedList(filter.pageNumber, filter.pageSize);
+                    var rcPage = new StaticPagedList<IRedCross>(page, page.GetMetaData());
+                    return rcPage;
+                }
+                else
+                {
+                    return AutoMapper.Mapper.Map<IEnumerable<IRedCross>>(await Repository.GetEverything<RedCrossEntity>()).OrderBy(r => r.Name).ToList();
+                }
             }
             catch (Exception ex)
             {

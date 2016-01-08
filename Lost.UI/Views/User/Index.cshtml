@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Lost.UI.Models.ApplicationUser>
+@{
+    ViewBag.Title = "Index";
+}
+<h4><span class="glyphicon glyphicon-user"></span> Korisnički računi</h4>
+<p>
+    @Html.ActionLink("Kreiraj korisnički račun", "Create") |
+    @Html.ActionLink("Uloge", "Index", "Role")
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.ActionLink("Uredi", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Obriši", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>

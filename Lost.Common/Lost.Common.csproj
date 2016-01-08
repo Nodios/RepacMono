@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Filters\IFilter.cs" />
-    <Compile Include="Filters\LostPersonFilter.cs" />
+    <Compile Include="Filters\GenericFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

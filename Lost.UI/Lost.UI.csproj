@@ -263,6 +263,8 @@
     <Content Include="Views\Lost\Details.cshtml" />
     <Content Include="Views\Lost\Edit.cshtml" />
     <Content Include="Views\Lost\Delete.cshtml" />
+    <Content Include="Views\Red\Create.cshtml" />
+    <Content Include="Views\Red\Delete.cshtml" />
     <Content Include="Views\Red\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,28 @@
+﻿@model Lost.UI.Models.ApplicationUser
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h4><span class="glyphicon glyphicon-user"></span> Korisnik</h4>
+<div>
+    <h4>Jeste li sigurni da želite obrisati korisnika?</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+    </dl>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Obriši" class="btn btn-default" /> |
+            @Html.ActionLink("Natrag na listu", "Index")
+        </div>
+    }
+</div>

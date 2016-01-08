@@ -12,8 +12,8 @@ namespace Lost.Service.Common
     public interface ILostService
     {
         Task<ILostPerson> FindByIdAsync(Guid id);
-        Task<IEnumerable<ILostPerson>> GetAllLostPersons(LostPersonFilter filter);
-        Task<IEnumerable<ILostPerson>> GetFromRedCross(Guid id, LostPersonFilter filters);
+        Task<IEnumerable<ILostPerson>> GetAllLostPersons(GenericFilter filter);
+        Task<IEnumerable<ILostPerson>> GetFromRedCross(Guid id, GenericFilter filters);
 
         Task<int> ReportLostPerson(ILostPerson lp);
         Task<int> UpdateLostPerson(ILostPerson lp);

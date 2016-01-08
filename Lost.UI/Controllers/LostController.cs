@@ -33,14 +33,14 @@ namespace Lost.UI.Controllers
         #region methods
         public async Task<ActionResult> Index(string searchString, string currentFilter, int pageNumber = 0, int pageSize = 0)
         {
-            var lp = await LostService.GetAllLostPersons(new Common.Filters.LostPersonFilter(searchString, pageNumber, pageSize));
+            var lp = await LostService.GetAllLostPersons(new Common.Filters.GenericFilter(searchString, pageNumber, pageSize));
             return View(lp);
         }
 
 
         public async Task<ActionResult> ReportMissing()
         {
-            ViewBag.RedCross = await RedService.GetAllAsync();
+            ViewBag.RedCross = await RedService.GetAllAsync(null);
 
             return View();
         }
@@ -55,7 +55,7 @@ namespace Lost.UI.Controllers
                 
                 return RedirectToAction("Index");
             }
-            ViewBag.RedCross = await RedService.GetAllAsync();
+            ViewBag.RedCross = await RedService.GetAllAsync(null);
 
             return View(lpm);
         }
@@ -86,7 +86,7 @@ namespace Lost.UI.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            ViewBag.RedCross = await RedService.GetAllAsync();
+            ViewBag.RedCross = await RedService.GetAllAsync(null);
 
             ILostPerson lostPerson = await LostService.FindByIdAsync(id);
             if (lostPerson == null)
@@ -100,7 +100,7 @@ namespace Lost.UI.Controllers
         {
             try
             {
-                ViewBag.RedCross = await RedService.GetAllAsync();
+                ViewBag.RedCross = await RedService.GetAllAsync(null);
 
                 if (ModelState.IsValid)
                 {

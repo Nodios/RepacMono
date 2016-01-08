@@ -7,6 +7,7 @@ using Lost.Model.Common;
 using Lost.Repository.Common;
 using Lost.Service.Common;
 using Lost.DAL;
+using Lost.Common.Filters;
 
 namespace Lost.Service
 {
@@ -25,9 +26,9 @@ namespace Lost.Service
             return Repository.GetAsync(id);
         }
 
-        public Task<IEnumerable<IRedCross>> GetAllAsync()
+        public Task<IEnumerable<IRedCross>> GetAllAsync(GenericFilter filter)
         {
-            return Repository.GetAsync();
+            return Repository.GetAsync(filter);
         }
 
         public Task<int> AddAsync(IRedCross rc)

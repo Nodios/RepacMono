@@ -24,13 +24,13 @@ namespace Lost.Repository.Common
         /// <param name="redCrossId"></param>
         /// <param name="filter"></param>
         /// <returns></returns>
-        Task<IEnumerable<ILostPerson>> GetAllAsync(Guid redCrossId, LostPersonFilter filter = null);
+        Task<IEnumerable<ILostPerson>> GetAllAsync(Guid redCrossId, GenericFilter filter = null);
         /// <summary>
         /// Get all lost persons
         /// </summary>
         /// <param name="paging"></param>
         /// <returns></returns>
-        Task<IEnumerable<ILostPerson>> GetEveryoneAsync(LostPersonFilter filter = null);
+        Task<IEnumerable<ILostPerson>> GetEveryoneAsync(GenericFilter filter = null);
 
         Task<int> AddAsync(ILostPerson lp);
         Task<int> UpdateAsync(ILostPerson lp);

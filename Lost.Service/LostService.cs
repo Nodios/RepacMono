@@ -27,7 +27,7 @@ namespace Lost.Service
             return lostRepository.GetAsync(id);
         }
 
-        public virtual Task<IEnumerable<ILostPerson>> GetAllLostPersons(LostPersonFilter filter)
+        public virtual Task<IEnumerable<ILostPerson>> GetAllLostPersons(GenericFilter filter)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace Lost.Service
             }
         }
 
-        public Task<IEnumerable<ILostPerson>> GetFromRedCross(Guid id, LostPersonFilter filter)
+        public Task<IEnumerable<ILostPerson>> GetFromRedCross(Guid id, GenericFilter filter)
         {
             return lostRepository.GetAllAsync(id);
         }

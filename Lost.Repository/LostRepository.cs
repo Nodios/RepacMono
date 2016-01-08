@@ -43,7 +43,7 @@ namespace Lost.Repository
         /// </summary>
         /// <param name="redCrossId"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<ILostPerson>> GetAllAsync(Guid redCrossId, LostPersonFilter filter)
+        public async Task<IEnumerable<ILostPerson>> GetAllAsync(Guid redCrossId, GenericFilter filter)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace Lost.Repository
         /// Get all lost persons
         /// </summary>
         /// <returns>List of lost persons</returns>
-        public async Task<IEnumerable<ILostPerson>> GetEveryoneAsync(LostPersonFilter filter)
+        public async Task<IEnumerable<ILostPerson>> GetEveryoneAsync(GenericFilter filter)
         {
             try
             {
