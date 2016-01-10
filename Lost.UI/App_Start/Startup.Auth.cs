@@ -8,6 +8,8 @@ using Microsoft.Owin.Security.Google;
 using Owin;
 using System;
 using Lost.UI.Models;
+using Lost.DAL;
+using Lost.DAL.Models;
 
 namespace Lost.UI
 {
@@ -17,7 +19,7 @@ namespace Lost.UI
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context and user manager to use a single instance per request
-            app.CreatePerOwinContext(ApplicationDbContext.Create);
+            app.CreatePerOwinContext(SearchContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
 
             // Enable the application to use a cookie to store information for the signed in user

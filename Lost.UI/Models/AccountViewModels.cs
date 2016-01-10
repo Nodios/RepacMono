@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Lost.UI.Models
 {
@@ -53,6 +54,11 @@ namespace Lost.UI.Models
 
     public class RegisterViewModel
     {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string OIB { get; set; }
+        public Guid RedCrossId { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

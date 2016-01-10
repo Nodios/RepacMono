@@ -3,10 +3,12 @@ using System.Data.Entity.Infrastructure;
 using Lost.DAL.Mapping;
 using Lost.DAL.Models;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Lost.DAL
 {
-    public partial class SearchContext : DbContext, ISearchContext
+    public partial class SearchContext : IdentityDbContext<ApplicationUser>, ISearchContext
     {
         //static SearchContext()
         //{
@@ -18,6 +20,11 @@ namespace Lost.DAL
         {
         }
 
+        public static SearchContext Create()
+        {
+            return new SearchContext();
+        }
+
         public DbSet<LostPersonEntity> LostPersons { get; set; }
         public DbSet<RedCrossEntity> RedCrosses { get; set; }
 
@@ -27,6 +34,8 @@ namespace Lost.DAL
             modelBuilder.Configurations.Add(new RedCrossEntityMap());
 
             modelBuilder.Conventions.Add<PluralizingTableNameConvention>();
+
+            base.OnModelCreating(modelBuilder);
         }
 
         public override DbSet<T> Set<T>()
