@@ -8,6 +8,11 @@ namespace Lost.Model.Common
 {
     public interface IApplicationUser
     {
-        IPersonInCharge PersonInCharge { get; set; }
+        string Id { get; set; }
+        string FirstName { get; set; }
+        string LastName { get; set; }
+        string OIB { get; set; }
+        Guid RedCrossId { get; set; }
+        IRedCross RedCross { get; set; }
     }
 }

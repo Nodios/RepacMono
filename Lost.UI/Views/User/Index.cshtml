@@ -1,28 +1,46 @@
-﻿@model IEnumerable<Lost.UI.Models.ApplicationUser>
+﻿@model IEnumerable<Lost.DAL.Models.ApplicationUserEntity>
 @{
     ViewBag.Title = "Index";
 }
-<h4><span class="glyphicon glyphicon-user"></span> Korisnički računi</h4>
+<h4><span class="glyphicon glyphicon-user"></span> Users</h4>
 <p>
-    @Html.ActionLink("Kreiraj korisnički račun", "Create") |
-    @Html.ActionLink("Uloge", "Index", "Role")
+    @Html.ActionLink("Register new user", "Create") |
+    @*@Html.ActionLink("Roles", "Index", "Role")*@
 </p>
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.UserName)
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OIB)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RedCrossEntity)
         </th>
     </tr>
     @foreach (var item in Model)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.UserName)
+                @Html.DisplayFor(modelItem => item.FirstName)
             </td>
             <td>
-                @Html.ActionLink("Uredi", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Obriši", "Delete", new { id = item.Id })
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OIB)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RedCrossEntity)
+            </td>
+            <td>
+                @Html.ActionLink("Edit user", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete user", "Delete", new { id = item.Id })
             </td>
         </tr>
     }

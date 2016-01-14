@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="ILostService.cs" />
     <Compile Include="IRedService.cs" />
+    <Compile Include="IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

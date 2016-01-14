@@ -14,5 +14,6 @@ namespace Lost.Model
 
         //Navigation one to many
         public virtual ICollection<ILostPerson> LostPersons { get; set; }
+        public virtual ICollection<IApplicationUser> ApplicationUsers { get; set; }
     }
 }

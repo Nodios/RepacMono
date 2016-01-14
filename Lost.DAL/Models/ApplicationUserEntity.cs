@@ -9,14 +9,27 @@ using System.Threading.Tasks;
 
 namespace Lost.DAL.Models
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUserEntity : IdentityUser
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string OIB { get; set; }
         public Guid RedCrossId { get; set; }
+        public RedCrossEntity RedCrossEntity { get; set; }
 
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
+        public override string UserName
+        {
+            get
+            {
+                return base.UserName;
+            }
+            set
+            {
+                base.UserName = value;
+            }
+        }
+
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUserEntity> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);

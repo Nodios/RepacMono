@@ -81,6 +81,7 @@
     <Compile Include="LostRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RedRepository.cs" />
+    <Compile Include="UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lost.Common\Lost.Common.csproj">

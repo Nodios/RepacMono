@@ -19,6 +19,9 @@ namespace Lost.UI.App_Start
 
             Mapper.CreateMap<IRedCross, RedCrossModel>().ReverseMap();
             Mapper.CreateMap<RedCross, RedCrossModel>().ReverseMap();
+
+            Mapper.CreateMap<IApplicationUser, ApplicationUserModel>().ReverseMap();
+            Mapper.CreateMap<ApplicationUser, ApplicationUserModel>().ReverseMap();
         }
         //public override string ProfileName
         //{

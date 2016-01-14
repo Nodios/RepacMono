@@ -12,7 +12,11 @@ namespace Lost.Model
 {
     public class ApplicationUser : IdentityUser, IApplicationUser
     {
-        public virtual IPersonInCharge PersonInCharge { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string OIB { get; set; }
+        public Guid RedCrossId { get; set; }
+        public IRedCross RedCross { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

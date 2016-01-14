@@ -56,6 +56,7 @@ namespace Lost.UI.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string UserName { get; set; }
         public string OIB { get; set; }
         public Guid RedCrossId { get; set; }
 

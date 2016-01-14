@@ -13,23 +13,26 @@ namespace Lost.Repository
 {
     public class UserRepository : IUserRepository
     {
+        #region Properties
         protected IGenericRepository Repository { get; private set; }
-        protected UserManager<ApplicationUserEntity> UserManager { get; private set; }
         protected IUnitOfWork UnitOfWork { get; private set; }
+        protected UserManager<ApplicationUserEntity> UserManager { get; private set; }
+        #endregion
 
-
-        public UserRepository(IGenericRepository repository, UserManager<ApplicationUserEntity> userManager, IUnitOfWork unitOfWork)
+        #region Constructor
+        public UserRepository(IGenericRepository repository, IUnitOfWork unitOfWork, UserManager<ApplicationUserEntity> userManager)
         {
             Repository = repository;
             UserManager = userManager;
             UnitOfWork = unitOfWork;
         }
+        #endregion
 
         public async Task<IApplicationUser> GetAsync(string id)
         {
             try
             {
-                return AutoMapper.Mapper.Map<IApplicationUser>(await Repository.GetAsync<ApplicationUserEntity>(p => p.Id.Equals(id)));
+                return AutoMapper.Mapper.Map<IApplicationUser>(await Repository.GetAsync<ApplicationUserEntity>(u => u.Id.Equals(id)));
             }
             catch (Exception ex)
             {
@@ -65,8 +68,12 @@ namespace Lost.Repository
         {
             try
             {
+                //Error: http://prntscr.com/9q0cf0
                 IdentityResult result = await UserManager.CreateAsync(AutoMapper.Mapper.Map<ApplicationUserEntity>(user), password);
+
                 return result.Succeeded;
+
+                //return result.Succeeded;
             }
             catch (Exception ex)
             {

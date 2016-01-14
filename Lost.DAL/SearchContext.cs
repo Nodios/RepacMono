@@ -8,7 +8,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Lost.DAL
 {
-    public partial class SearchContext : IdentityDbContext<ApplicationUser>, ISearchContext
+    public partial class SearchContext : IdentityDbContext<ApplicationUserEntity>, ISearchContext
     {
         //static SearchContext()
         //{

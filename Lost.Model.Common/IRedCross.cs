@@ -15,5 +15,6 @@ namespace Lost.Model.Common
         string PersonInCharge { get; set; }
 
         ICollection<ILostPerson> LostPersons { get; set; }
+        ICollection<IApplicationUser> ApplicationUsers { get; set; }
     }
 }

@@ -12,21 +12,25 @@ using Microsoft.Owin.Security;
 using Owin;
 using Lost.UI.Models;
 using Lost.DAL.Models;
+using Lost.Service.Common;
 
 namespace Lost.UI.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        protected IRedService RedService { get; private set; }
         private ApplicationUserManager _userManager;
 
-        public AccountController()
+        public AccountController(IRedService redService)
         {
+            RedService = redService;
         }
 
-        public AccountController(ApplicationUserManager userManager)
+        public AccountController(ApplicationUserManager userManager, IRedService redService)
         {
             UserManager = userManager;
+            RedService = redService;
         }
 
         public ApplicationUserManager UserManager {
@@ -77,8 +81,9 @@ namespace Lost.UI.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public async Task<ActionResult> Register()
         {
+            ViewBag.RedCross = await RedService.GetAllAsync(null);
             return View();
         }
 
@@ -91,7 +96,7 @@ namespace Lost.UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, OIB = model.OIB };
+                var user = new ApplicationUserEntity() { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, OIB = model.OIB, RedCrossId = model.RedCrossId };
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -102,7 +107,6 @@ namespace Lost.UI.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -110,7 +114,7 @@ namespace Lost.UI.Controllers
                     AddErrors(result);
                 }
             }
-
+            ViewBag.RedCross = await RedService.GetAllAsync(null);
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -406,7 +410,7 @@ namespace Lost.UI.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUserEntity() { UserName = model.Email, Email = model.Email };
                 IdentityResult result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -479,7 +483,7 @@ namespace Lost.UI.Controllers
             }
         }
 
-        private async Task SignInAsync(ApplicationUser user, bool isPersistent)
+        private async Task SignInAsync(ApplicationUserEntity user, bool isPersistent)
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
             AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, await user.GenerateUserIdentityAsync(UserManager));

@@ -14,5 +14,6 @@ namespace Lost.DAL.Models
 
         //one to many, one RC can have many reported persons
         public virtual ICollection<LostPersonEntity> LostPersonEntities { get; set; }
+        public virtual ICollection<ApplicationUserEntity> ApplicationUsers { get; set; }
     }
 }

@@ -16,6 +16,7 @@ using Lost.Service.Common;
 using Lost.DAL.Models;
 using Lost.UI.Models;
 using Lost.Model.Common;
+using Lost.DAL;
 
 namespace Lost.UI.Controllers
 {
@@ -24,80 +25,57 @@ namespace Lost.UI.Controllers
         protected IUserService Service { get; private set; }
         protected IRedService RedService { get; private set; }
         public RoleManager<IdentityRole> RoleManager { get; private set; }
-        protected UserManager<ApplicationUser> UserManager { get; private set; }
+        protected UserManager<ApplicationUserEntity> UserManager { get; private set; }
 
         public UserController(IUserService service, IRedService redService, RoleManager<IdentityRole> roleManager)
         {
             Service = service;
             RedService = redService;
             RoleManager = roleManager;
-            UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new SearchContext()));
+            UserManager = new UserManager<ApplicationUserEntity>(new UserStore<ApplicationUserEntity>(new SearchContext()));
         }
 
         // GET: User
-        public async Task<ActionResult> Index(ApplicationUserEntity user, int? id)
+        
+        public async Task<ActionResult> Index(ApplicationUserEntity user)
         {
             return View(await UserManager.Users.ToListAsync());
         }
 
+        [AllowAnonymous]
         public async Task<ActionResult> Create()
         {
             ViewBag.RedCross = await RedService.GetAllAsync(null);
-            //ViewBag.RoleId = await RoleManager.Roles.ToListAsync();
-            ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
             return View();
         }
         [HttpPost]
-        public async Task<ActionResult> Create(RegisterViewModel model, ApplicationUserModel user, string RoleId)
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(RegisterViewModel model, ApplicationUserModel user)
         {
             if (ModelState.IsValid)
             {
-                user.PersonInCharge = new PersonInChargeModel { FirstName=model.FirstName, LastName = model.LastName, OIB=model.OIB, RedCrossId = model.RedCrossId };
+                //http://prntscr.com/9q077y
+                user = new ApplicationUserModel { Id = user.Id, UserName=model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, OIB = model.OIB, RedCrossId = model.RedCrossId };
 
-                //Register new user
-                bool adminResult = await Service.RegisterUser(AutoMapper.Mapper.Map<IApplicationUser>(user), model.Password);
+                //Register new user: http://prntscr.com/9q0bo6
+                await Service.RegisterUser(AutoMapper.Mapper.Map<IApplicationUser>(user), model.Password);
 
-                if (adminResult)
-                {
-                    if (!String.IsNullOrWhiteSpace(RoleId))
-                    {
-                        var role = await RoleManager.FindByIdAsync(RoleId);
-                        var result = await UserManager.AddToRoleAsync(user.Id, role.Name);
-                        if (!result.Succeeded)
-                        {
-                            ModelState.AddModelError("", result.Errors.First().ToString());
-                            ViewBag.RedCross = await RedService.GetAllAsync(null);
-                            //ViewBag.RoleId = await RoleManager.Roles.ToListAsync();
-                            ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
-                            return View();
-                        }
-                    }
-                }
-                else
-                {
-                    ViewBag.RedCross = await RedService.GetAllAsync(null);
-                    //ViewBag.RoleId = await RoleManager.Roles.ToListAsync();
-                    ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
-                    return View();
-                }
                 return RedirectToAction("Index");
+
             }
             else
             {
                 ViewBag.RedCross = await RedService.GetAllAsync(null);
-                //ViewBag.RoleId = await RoleManager.Roles.ToListAsync();
-                ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
                 return View();
             }
         }
 
-        public async Task<ActionResult> Edit(string id)
+        public async Task<ActionResult> Edit(string userId)
         {
-            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (userId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            //ViewBag.RoleId = await RoleManager.Roles.ToListAsync();
-            ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
-            var user = await UserManager.FindByIdAsync(id);
+            var user = await UserManager.FindByIdAsync(userId);
 
             if (user == null) return HttpNotFound();
 
@@ -106,35 +84,33 @@ namespace Lost.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(ApplicationUser editUser, string id, string RoleId)
+        public async Task<ActionResult> Edit(ApplicationUserModel editUser, string userId, string roleId)
         {
-            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (userId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            ViewBag.RoleId = await RoleManager.Roles.ToListAsync();
-            var user = await UserManager.FindByIdAsync(id);
+            var user = await UserManager.FindByIdAsync(userId);
             user.UserName = editUser.UserName;
             if (ModelState.IsValid)
             {
                 await UserManager.UpdateAsync(user);
 
-                var rolesForUser = await UserManager.GetRolesAsync(id);
+                var rolesForUser = await UserManager.GetRolesAsync(userId);
                 if (rolesForUser.Count() > 0)
                 {
                     foreach (var item in rolesForUser)
                     {
-                        var result = await UserManager.RemoveFromRoleAsync(id, item);
+                        var result = await UserManager.RemoveFromRoleAsync(userId, item);
                     }
                 }
 
-                if (!String.IsNullOrWhiteSpace(RoleId))
+                if (!String.IsNullOrWhiteSpace(roleId))
                 {
-                    var role = await RoleManager.FindByIdAsync(RoleId);
+                    var role = await RoleManager.FindByIdAsync(roleId);
 
-                    var result = await UserManager.AddToRoleAsync(id, role.Name);
+                    var result = await UserManager.AddToRoleAsync(userId, role.Name);
                     if (!result.Succeeded)
                     {
                         ModelState.AddModelError("", result.Errors.First().ToString());
-                        ViewBag.RoleId = await RoleManager.Roles.ToListAsync();
                         return View();
                     }
                 }
@@ -142,7 +118,6 @@ namespace Lost.UI.Controllers
             }
             else
             {
-                ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
                 return View();
             }
         }
@@ -159,7 +134,7 @@ namespace Lost.UI.Controllers
         }
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeletePost(string id)
+        public async Task<ActionResult> DeleteUser(string id)
         {
             var user = await UserManager.FindByIdAsync(id);
             await UserManager.DeleteAsync(user);

@@ -8,6 +8,10 @@ namespace Lost.UI.Models
 {
     public class ApplicationUserModel : IdentityUser
     {
-        public virtual PersonInChargeModel PersonInCharge { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string OIB { get; set; }
+        public Guid RedCrossId { get; set; }
+        public RedCrossModel RedCrossModel{ get; set; }
     }
 }

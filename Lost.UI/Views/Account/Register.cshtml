@@ -12,6 +12,13 @@
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
+        @Html.LabelFor(m => m.RedCrossId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.RedCrossId, new SelectList(ViewBag.RedCross, "RedCrossId", "Name"), "Select RC")
+            @Html.ValidationMessageFor(model => model.RedCrossId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
         @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })

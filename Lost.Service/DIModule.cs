@@ -10,6 +10,7 @@ namespace Lost.Service
         {
             Bind<ILostService>().To<LostService>();
             Bind<IRedService>().To<RedService>();
+            Bind<IUserService>().To<UserService>();
         }
     }
 }

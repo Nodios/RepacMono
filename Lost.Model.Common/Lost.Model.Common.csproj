@@ -41,7 +41,6 @@
   <ItemGroup>
     <Compile Include="IApplicationUser.cs" />
     <Compile Include="ILostPerson.cs" />
-    <Compile Include="IPersonInCharge.cs" />
     <Compile Include="IRedCross.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

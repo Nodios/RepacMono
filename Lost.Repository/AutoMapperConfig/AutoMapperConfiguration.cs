@@ -24,6 +24,10 @@ namespace Lost.Repository
             AutoMapper.Mapper.CreateMap<RedCrossEntity, RedCross>().ReverseMap();
             AutoMapper.Mapper.CreateMap<RedCrossEntity, IRedCross>().ReverseMap();
             AutoMapper.Mapper.CreateMap<IRedCross, RedCross>().ReverseMap();
+
+            AutoMapper.Mapper.CreateMap<ApplicationUserEntity, ApplicationUser>().ReverseMap();
+            AutoMapper.Mapper.CreateMap<ApplicationUserEntity, IApplicationUser>().ReverseMap();
+            AutoMapper.Mapper.CreateMap<IApplicationUser, ApplicationUser>().ReverseMap();
         }
         
         //public override string ProfileName
